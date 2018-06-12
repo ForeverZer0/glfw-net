@@ -2,6 +2,32 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>GLFW</RootNamespace>
+    <Authors>Eric Freed</Authors>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Description>Complete, cross-platform, managed wrapper around the GLFW library for creating native windows with an OpenGL context.</Description>
+    <RepositoryUrl>https://github.com/ForeverZer0/glfw-net</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ForeverZer0/glfw-net</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageReleaseNotes>*v1.0.0
+- Built with Visual Studio 2017 15.3
+- Targets .NET Standard 2.0 for maximum compatibility with .NET Framework and .NET Core
+- Covers 100% GLFW 3.2.1 (latest version) exported functions, including Vulkan context
+- Simplified "GameWindow" class to emulate WinForms, with similar properties, events, etc.
+</PackageReleaseNotes>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>GLFW OpenGL OpenGLES ES C# F# VB Csharp CS Windows Mono Linux Mac OSX Context NET Standard Core Framework Game Native Form Cross Platform Unix netcore netstandard dotnet winform</PackageTags>
+    <Copyright>Copyright © Eric Freed 2018</Copyright>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\GLFW.NET.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\GLFW.NET.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>

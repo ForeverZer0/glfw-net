@@ -1,6 +1,6 @@
 ﻿#region MIT License
 
-// Form.cs is distributed under the MIT License (MIT)
+// GameWindow.cs is distributed under the MIT License (MIT)
 // 
 // Copyright (c) 2018, Eric Freed
 //   
@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 // 
-// Form.cs created on 06/10/2018
+// GameWindow.cs created on 06/11/2018
 
 #endregion
 
@@ -32,17 +32,22 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace GLFW.Game
 {
-	public class GameWindow : Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid
+	/// <summary>
+	///     Provides a simplified interface for creating and using a GLFW window with properties, events, etc.
+	/// </summary>
+	/// <seealso cref="Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid" />
+	public class GameWindow : SafeHandleZeroOrMinusOneIsInvalid
 	{
 		#region Fields and Constants
 
 		/// <summary>
-		///		The window instance this object wraps.
+		///     The window instance this object wraps.
 		/// </summary>
-		protected Window Window; 
+		protected Window Window;
 
 		private string _title;
 
@@ -396,32 +401,23 @@ namespace GLFW.Game
 			}
 		}
 
-		/// <summary>
-		/// Sets the aspect ratio to maintain for the window.
-		/// <para>This function is ignored for fullscreen windows.</para>
-		/// </summary>
-		/// <param name="numerator">The numerator of the desired aspect ratio.</param>
-		/// <param name="denominator">The denominator of the desired aspect ratio.</param>
-		public void SetAspectRatio(int numerator, int denominator) =>
-			Glfw.SetWindowAspectRatio(Window, numerator, denominator);
-
 		#region Operators
 
 		/// <summary>
-		/// Performs an implicit conversion from <see cref="GameWindow"/> to <see cref="GLFW.Window"/>.
+		///     Performs an implicit conversion from <see cref="GameWindow" /> to <see cref="GLFW.Window" />.
 		/// </summary>
 		/// <param name="gameWindow">The game window.</param>
 		/// <returns>
-		/// The result of the conversion.
+		///     The result of the conversion.
 		/// </returns>
 		public static implicit operator Window(GameWindow gameWindow) => gameWindow.Window;
 
 		/// <summary>
-		/// Performs an implicit conversion from <see cref="GameWindow"/> to <see cref="IntPtr"/>.
+		///     Performs an implicit conversion from <see cref="GameWindow" /> to <see cref="IntPtr" />.
 		/// </summary>
 		/// <param name="gameWindow">The game window.</param>
 		/// <returns>
-		/// The result of the conversion.
+		///     The result of the conversion.
 		/// </returns>
 		public static implicit operator IntPtr(GameWindow gameWindow) => gameWindow.Window;
 
@@ -431,16 +427,37 @@ namespace GLFW.Game
 
 		#region Constructors
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GameWindow"/> class.
+		/// </summary>
 		public GameWindow() : this(640, 480, string.Empty, Monitor.None, Window.None) { }
 
+		/// <summary>
+		///     Initializes a new instance of the <see cref="GameWindow" /> class.
+		/// </summary>
+		/// <param name="width">The desired width, in screen coordinates, of the window. This must be greater than zero.</param>
+		/// <param name="height">The desired height, in screen coordinates, of the window. This must be greater than zero.</param>
+		/// <param name="title">The initial window title.</param>
 		public GameWindow(int width, int height, string title) :
 			this(width, height, title, Monitor.None, Window.None) { }
 
+		/// <summary>
+		///     Initializes a new instance of the <see cref="GameWindow" /> class.
+		/// </summary>
+		/// <param name="width">The desired width, in screen coordinates, of the window. This must be greater than zero.</param>
+		/// <param name="height">The desired height, in screen coordinates, of the window. This must be greater than zero.</param>
+		/// <param name="title">The initial window title.</param>
+		/// <param name="monitor">The monitor to use for full screen mode, or <see cref="GLFW.Monitor.None" /> for windowed mode.</param>
+		/// <param name="share">
+		///     A window instance whose context to share resources with, or <see cref="GLFW.Window.None" /> to not share
+		///     resources..
+		/// </param>
 		public GameWindow(int width, int height, string title, Monitor monitor, Window share) : base(true)
 		{
 			_title = title;
 			Window = Glfw.CreateWindow(width, height, title, monitor, share);
 			SetHandle(Window);
+			MakeCurrent();
 			BindCallbacks();
 		}
 
@@ -490,6 +507,11 @@ namespace GLFW.Game
 		public void Fullscreen(Monitor monitor) => Glfw.SetWindowMonitor(Window, monitor, 0, 0, 0, 0, -1);
 
 		/// <summary>
+		/// Makes window and its context the current.
+		/// </summary>
+		public void MakeCurrent() => Glfw.MakeContextCurrent(Window);
+
+		/// <summary>
 		///     Maximizes this window to fill the screen.
 		///     <para>Has no effect if window is already maximized.</para>
 		/// </summary>
@@ -506,6 +528,15 @@ namespace GLFW.Game
 		///     <para>Has no effect if window was already restored.</para>
 		/// </summary>
 		public void Restore() => Glfw.RestoreWindow(Window);
+
+		/// <summary>
+		///     Sets the aspect ratio to maintain for the window.
+		///     <para>This function is ignored for fullscreen windows.</para>
+		/// </summary>
+		/// <param name="numerator">The numerator of the desired aspect ratio.</param>
+		/// <param name="denominator">The denominator of the desired aspect ratio.</param>
+		public void SetAspectRatio(int numerator, int denominator) =>
+			Glfw.SetWindowAspectRatio(Window, numerator, denominator);
 
 		/// <summary>
 		///     Sets the icon(s) used for the titlebar, taskbar, etc.
@@ -566,6 +597,11 @@ namespace GLFW.Game
 		}
 
 		/// <summary>
+		///     Swaps the front and back buffers when rendering with OpenGL or OpenGL ES.
+		/// </summary>
+		public void SwapBuffers() => Glfw.SwapBuffers(Window);
+
+		/// <summary>
 		///     Releases unmanaged and - optionally - managed resources.
 		/// </summary>
 		/// <param name="disposing">
@@ -621,8 +657,6 @@ namespace GLFW.Game
 
 			OnFileDrop(filenames);
 		}
-
-		public void MakeCurrent() => Glfw.MakeContextCurrent(Window);
 
 		#endregion
 
