@@ -457,7 +457,8 @@ namespace GLFW.Game
 			_title = title;
 			Window = Glfw.CreateWindow(width, height, title, monitor, share);
 			SetHandle(Window);
-			MakeCurrent();
+			if (Glfw.GetClientApi(this) != ClientApi.None)
+				MakeCurrent();
 			BindCallbacks();
 		}
 
@@ -598,6 +599,9 @@ namespace GLFW.Game
 
 		/// <summary>
 		///     Swaps the front and back buffers when rendering with OpenGL or OpenGL ES.
+		///		<para>
+		///			This should not be called on a window that is not using an OpenGL or OpenGL ES context (.i.e. Vulkan).
+		///		</para>
 		/// </summary>
 		public void SwapBuffers() => Glfw.SwapBuffers(Window);
 
