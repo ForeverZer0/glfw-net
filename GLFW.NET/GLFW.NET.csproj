@@ -4,12 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>GLFW</RootNamespace>
     <Authors>Eric Freed</Authors>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
     <Description>Complete, cross-platform, managed wrapper around the GLFW library for creating native windows with an OpenGL context.</Description>
     <RepositoryUrl>https://github.com/ForeverZer0/glfw-net</RepositoryUrl>
     <PackageProjectUrl>https://github.com/ForeverZer0/glfw-net</PackageProjectUrl>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <PackageReleaseNotes>*v1.0.0
+    <PackageReleaseNotes>*v1.0.1
+- Fixed bug with calling the GameWindow constructor when using a context-less window (Vulkan).
+*v1.0.0
 - Built with Visual Studio 2017 15.3
 - Targets .NET Standard 2.0 for maximum compatibility with .NET Framework and .NET Core
 - Covers 100% GLFW 3.2.1 (latest version) exported functions, including Vulkan context
@@ -20,6 +22,7 @@
     <Copyright>Copyright © Eric Freed 2018</Copyright>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
