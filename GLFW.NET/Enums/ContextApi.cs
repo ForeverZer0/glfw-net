@@ -43,6 +43,12 @@ namespace GLFW
 		/// <summary>
 		///     EGL
 		/// </summary>
-		Egl = 0x00036002
+		Egl = 0x00036002,
+		
+		/// <summary>
+		/// 	OS Mesa
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		Mesa = 0x00036003
 	}
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -23,14 +23,17 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.0.1</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netstandard2.0\GLFW.NET.xml</DocumentationFile>
+    <DefineConstants>TRACE;RELEASE;NETSTANDARD;NETSTANDARD2_0;GLFW_VERSION_3_3</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netstandard2.0\GLFW.NET.xml</DocumentationFile>
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD;NETSTANDARD2_0;GLFW_VERSION_3_3</DefineConstants>
   </PropertyGroup>
 
 </Project>

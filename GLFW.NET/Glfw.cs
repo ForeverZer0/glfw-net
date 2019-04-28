@@ -162,6 +162,21 @@ namespace GLFW
 		#region External
 
 		/// <summary>
+		/// 	This function sets hints for the next initialization of GLFW.
+		/// 	<para>
+		/// 	The values you set hints to are never reset by GLFW, but they only take effect during initialization.
+		/// 	Once GLFW has been initialized, any values you set will be ignored until the library is terminated and
+		/// 	initialized again.>.
+		/// 	</para>
+		/// </summary>
+		/// <param name="hint">The hint, valid values are <see cref="Hint.JoystickHatButtons"/>,
+		/// 	<see cref="Hint.CocoaMenuBar"/>, and <see cref="Hint.CocoaChDirResources"/>.</param>
+		/// <param name="value">The value of the hint.</param>
+		[GlfwVersion(3, 3)]
+		[DllImport(LIBRARY, EntryPoint = "glfwInitHint", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void InitHint(Hint hint, bool value);
+		
+		/// <summary>
 		///     This function initializes the GLFW library. Before most GLFW functions can be used, GLFW must be initialized, and
 		///     before an application terminates GLFW should be terminated in order to free any resources allocated during or after
 		///     initialization.
@@ -1130,6 +1145,10 @@ namespace GLFW
 		/// <returns>The value of the <paramref name="attribute" />.</returns>
 		[DllImport(LIBRARY, EntryPoint = "glfwGetWindowAttrib", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int GetWindowAttribute(Window window, int attribute);
+		
+		[DllImport(LIBRARY, EntryPoint = "glfwGetError", CallingConvention = CallingConvention.Cdecl)]
+		[GlfwVersion(3, 3)]
+		private static extern ErrorCode GetErrorPrivate(out IntPtr description);
 
 		#endregion
 
@@ -1484,6 +1503,55 @@ namespace GLFW
 		private static void GlfwError(ErrorCode code, IntPtr message) =>
 			throw new Exception(Util.PtrToStringUTF8(message));
 
+		public static extern void GetJoystickHats(); // TODO
+
+		public static extern void WindowHintString(); // TODO (Ascii and Utf8 overloads)
+
+		public static extern void RawMouseMotionSupported(); // TODO
+
 		#endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		/// <summary>
+		/// 	Returns and clears the error code of the last error that occurred on the calling thread, and optionally
+		/// 	a description of it.
+		/// 	<para>
+		///			If no error has occurred since the last call, it returns <see cref="ErrorCode.None"/> and the
+		/// 		description pointer is set to <c>null</c>.
+		/// 	</para>
+		/// </summary>
+		/// <param name="description">The description string, or <c>null</c> if there is no error.</param>
+		/// <returns>The error code.</returns>
+		[GlfwVersion(3, 3)]
+		public static ErrorCode GetError(out string description)
+		{
+			var code = GetErrorPrivate(out var ptr);
+			description = code == ErrorCode.None ? null : Util.PtrToStringUTF8(ptr);
+			return code;
+		}
+		
+
+
+
+
 	}
 }

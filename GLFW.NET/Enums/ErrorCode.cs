@@ -38,7 +38,14 @@ namespace GLFW
 		/// <summary>
 		///     An unknown or undefined error.
 		/// </summary>
+		[System.Obsolete("Use None")]
 		Unknown = 0x00000000,
+		
+		/// <summary>
+		/// 	No error has occurred.
+		/// </summary>
+		[GlfwVersionAttribute(3, 3)]
+		None = 0x00000000,
 
 		/// <summary>
 		///     This occurs if a GLFW function was called that must not be called unless the library is initialized.

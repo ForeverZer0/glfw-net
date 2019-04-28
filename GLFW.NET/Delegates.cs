@@ -34,7 +34,7 @@ using System.Runtime.InteropServices;
 namespace GLFW
 {
 	/// <summary>
-	///     Function signature for recieving error callbacks.
+	///     Function signature for receiving error callbacks.
 	/// </summary>
 	/// <param name="code">The error code.</param>
 	/// <param name="message">A pointer to the UTF-8 encoded (null-terminated) error message.</param>
@@ -158,7 +158,26 @@ namespace GLFW
 	///     This is the function signature for window iconify/restore callback functions.
 	/// </summary>
 	/// <param name="window">The window handle.</param>
-	/// <param name="focusing"><c>true</c> if window is iconified; otherise <c>false</c> if restoring.</param>
+	/// <param name="focusing"><c>true</c> if window is iconified; otherwise <c>false</c> if restoring.</param>
 	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 	public delegate void IconifyCallback(IntPtr window, bool focusing);
+
+	/// <summary>
+	/// 	This is the function signature for window content scale callback functions.
+	/// </summary>
+	/// <param name="window">The window whose content scale changed.</param>
+	/// <param name="xScale">The new x-axis content scale of the window.</param>
+	/// <param name="yScale">The new y-axis content scale of the window.</param>
+	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[GlfwVersion(3, 3)]
+	public delegate void WindowContentsScaleCallback(IntPtr window, float xScale, float yScale);
+
+	/// <summary>
+	/// 	This is the function signature for window maximize/restore callback functions.
+	/// </summary>
+	/// <param name="window">The window that was maximized or restored.</param>
+	/// <param name="maximized"><c>true</c> if the window was maximized, or <c>false</c> if it was restored.</param>
+	[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+	[GlfwVersion(3, 3)]
+	public delegate void WindowMaximizedCallback(IntPtr window, bool maximized);
 }

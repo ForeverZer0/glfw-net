@@ -56,6 +56,16 @@ namespace GLFW
 		/// <summary>
 		///     The super key ("Windows" key on Windows)
 		/// </summary>
-		Super = 0x0008
+		Super = 0x0008,
+		
+		/// <summary>
+		/// 	The caps-lock is enabled.
+		/// </summary>
+		CapsLock = 0x0010,
+		
+		/// <summary>
+		/// 	The num-lock is enabled.
+		/// </summary>
+		NumLock =  0x0020
 	}
 }

@@ -319,6 +319,109 @@ namespace GLFW
 		///     <para>Default Value: <see cref="Constants.False" /></para>
 		///     <para>Possible Values: <see cref="Constants.True" /> or <see cref="Constants.False" />.</para>
 		/// </summary>
-		ContextNoError = 0x0002200a
+		ContextNoError = 0x0002200a,
+		
+		/// <summary>
+		/// 	Specifies whether to also expose joystick hats as buttons, for compatibility with earlier versions of
+		/// 	GLFW (less than 3.3) that did not have <see cref="Glfw.GetJoystickHats"/>.
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		JoystickHatButtons = 0x00050001,
+		
+		/// <summary>
+		/// 	Specifies whether to set the current directory to the application to the Contents/Resources
+		/// 	subdirectory of the application's bundle, if present.
+		/// 	<para>macOS ONLY!</para> 
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		CocoaChDirResources = 0x00051001,
+		
+		/// <summary>
+		/// 	Specifies whether to create a basic menu bar, either from a nib or manually, when the first window is
+		/// 	created, which is when AppKit is initialized.
+		/// 	<para>macOS ONLY!</para> 
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		CocoaMenuBar = 0x00051002,
+		
+		/// <summary>
+		/// 	Specifies whether the cursor should be centered over newly created full screen windows.
+		/// 	<para>Possible values are <c>true</c> and <c>false</c>.</para>
+		/// 	<para>This hint is ignored for windowed mode windows.</para>
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		CenterCursor = 0x00020009,
+
+		/// <summary>
+		/// 	Specifies whether the window framebuffer will be transparent.
+		/// 	<para>
+		/// 		If enabled and supported by the system, the window framebuffer alpha channel will be used to combine
+		/// 		the framebuffer with the background. This does not affect window decorations.
+		///		</para>
+		/// 	<para>Possible values are <c>true</c> and <c>false</c>.</para>
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		TransparentFramebuffer = 0x0002000A,
+		
+		/// <summary>
+		/// 	Specifies whether the window will be given input focus when <see cref="Glfw.ShowWindow"/> is called.
+		/// 	<para>Possible values are <c>true</c> and <c>false</c>.</para>
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		FocusOnShow = 0x0002000C,
+		
+		/// <summary>
+		/// 	Specifies whether the window content area should be resized based on the monitor content scale of any
+		/// 	monitor it is placed on. This includes the initial placement when the window is created.
+		///		<para>Possible values are <c>true</c> and <c>false</c>.</para>
+		/// 	<para>
+		///			This hint only has an effect on platforms where screen coordinates and pixels always map 1:1 such as
+		/// 		Windows and X11. On platforms like macOS the resolution of the framebuffer is changed independently
+		/// 		of the window size.
+		/// 	</para>
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		ScaleToMonitor = 0x0002200C,
+		
+		/// <summary>
+		/// 	Specifies whether to use full resolution framebuffers on Retina displays.
+		///		<para>Possible values are <c>true</c> and <c>false</c>.</para>
+		/// 	<para>This is ignored on other platforms.</para>
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		CocoaRetinaFrameBuffer = 0x00023001,
+		
+		/// <summary>
+		/// 	Specifies the UTF-8 encoded name to use for auto-saving the window frame, or if empty disables frame
+		/// 	auto-saving for the window.
+		///		<para>macOs only, this is ignored on other platforms.</para>
+		/// 	<para>This is set with <see cref="Glfw.WindowHintString"/>.</para>
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		CocoaFrameName = 0x00023002,
+		
+		/// <summary>
+		/// 	Specifies whether to in Automatic Graphics Switching, i.e. to allow the system to choose the integrated
+		/// 	GPU for the OpenGL context and move it between GPUs if necessary or whether to force it to always run on
+		/// 	the discrete GPU.
+		///		<para>This only affects systems with both integrated and discrete GPUs, ignored on other platforms.</para>
+		///		<para>Possible values are <c>true</c> and <c>false</c>.</para>
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		CocoaGraphicsSwitching = 0x00023003,
+		
+		/// <summary>
+		/// 	Specifies the desired ASCII encoded class parts of the ICCCM <c>WM_CLASS</c> window property.
+		/// 	<para>Set with <see cref="Glfw.WindowHintString"/>.</para>
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		X11ClassName = 0x00024001,
+		
+		/// <summary>
+		/// 	Specifies the desired ASCII encoded instance parts of the ICCCM <c>WM_CLASS</c> window property.
+		/// 	<para>Set with <see cref="Glfw.WindowHintString"/>.</para>
+		/// </summary>
+		[GlfwVersion(3, 3)]
+		X11InstanceName = 0x00024002
 	}
 }
