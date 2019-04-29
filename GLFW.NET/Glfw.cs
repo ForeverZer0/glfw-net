@@ -22,6 +22,8 @@ namespace GLFW
         /// </summary>
         public const string LIBRARY = "glfw3";
 
+        private static readonly ErrorCallback errorCallback = GlfwError;
+
         #endregion
 
         #region Constructors
@@ -29,7 +31,7 @@ namespace GLFW
         static Glfw()
         {
             Init();
-            SetErrorCallback(GlfwError);
+            SetErrorCallback(errorCallback);
         }
 
         #endregion
