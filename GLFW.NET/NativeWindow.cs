@@ -45,6 +45,19 @@ namespace GLFW
 
         private string title;
 
+        private PositionCallback windowPositionCallback;
+        private SizeCallback windowSizeCallback, framebufferSizeCallback;
+        private FocusCallback windowFocusCallback;
+        private WindowCallback closeCallback, windowRefreshCallback;
+        private FileDropCallback dropCallback;
+        private MouseCallback cursorPositionCallback, scrollCallback;
+        private MouseEnterCallback cursorEnterCallback;
+        private MouseButtonCallback mouseButtonCallback;
+        private CharModsCallback charModsCallback;
+        private KeyCallback keyCallback;
+        private WindowMaximizedCallback windowMaximizeCallback;
+        private WindowContentsScaleCallback windowContentScaleCallback;
+
         #endregion
 
         #region Properties
@@ -668,21 +681,37 @@ namespace GLFW
 
         private void BindCallbacks()
         {
-            Glfw.SetWindowPositionCallback(Window, (_, x, y) => OnPositionChanged(x, y));
-            Glfw.SetWindowSizeCallback(Window, (_, w, h) => OnSizeChanged(w, h));
-            Glfw.SetWindowFocusCallback(Window, (_, focusing) => OnFocusChanged(focusing));
-            Glfw.SetCloseCallback(Window, _ => OnClosing());
-            Glfw.SetDropCallback(Window, (_, count, arrayPtr) => OnFileDrop(count, arrayPtr));
-            Glfw.SetCursorPositionCallback(Window, (_, x, y) => OnMouseMove(x, y));
-            Glfw.SetCursorEnterCallback(Window, (_, entering) => OnMouseEnter(entering));
-            Glfw.SetMouseButtonCallback(Window, (_, button, state, mod) => OnMouseButton(button, state, mod));
-            Glfw.SetScrollCallback(Window, (_, x, y) => OnMouseScroll(x, y));
-            Glfw.SetCharModsCallback(Window, (_, cp, mods) => OnCharacterInput(cp, mods));
-            Glfw.SetFramebufferSizeCallback(Window, (_, w, h) => OnFramebufferSizeChanged(w, h));
-            Glfw.SetWindowRefreshCallback(Window, _ => Refreshed?.Invoke(this, EventArgs.Empty));
-            Glfw.SetKeyCallback(Window, (_, key, code, state, mods) => OnKey(key, code, state, mods));
-            Glfw.SetWindowMaximizeCallback(Window, (_, maximized) => OnMaximizeChanged(maximized));
-            Glfw.SetWindowContentScaleCallback(Window, (_, x, y) => OnContentScaleChanged(x, y));
+            windowPositionCallback = (_, x, y) => OnPositionChanged(x, y);
+            windowSizeCallback = (_, w, h) => OnSizeChanged(w, h);
+            windowFocusCallback = (_, focusing) => OnFocusChanged(focusing);
+            closeCallback = _ => OnClosing();
+            dropCallback = (_, count, arrayPtr) => OnFileDrop(count, arrayPtr);
+            cursorPositionCallback = (_, x, y) => OnMouseMove(x, y);
+            cursorEnterCallback = (_, entering) => OnMouseEnter(entering);
+            mouseButtonCallback = (_, button, state, mod) => OnMouseButton(button, state, mod);
+            scrollCallback = (_, x, y) => OnMouseScroll(x, y);
+            charModsCallback = (_, cp, mods) => OnCharacterInput(cp, mods);
+            framebufferSizeCallback = (_, w, h) => OnFramebufferSizeChanged(w, h);
+            windowRefreshCallback = _ => Refreshed?.Invoke(this, EventArgs.Empty);
+            keyCallback = (_, key, code, state, mods) => OnKey(key, code, state, mods);
+            windowMaximizeCallback = (_, maximized) => OnMaximizeChanged(maximized);
+            windowContentScaleCallback = (_, x, y) => OnContentScaleChanged(x, y);
+
+            Glfw.SetWindowPositionCallback(Window, windowPositionCallback);
+            Glfw.SetWindowSizeCallback(Window, windowSizeCallback);
+            Glfw.SetWindowFocusCallback(Window, windowFocusCallback);
+            Glfw.SetCloseCallback(Window, closeCallback);
+            Glfw.SetDropCallback(Window, dropCallback);
+            Glfw.SetCursorPositionCallback(Window, cursorPositionCallback);
+            Glfw.SetCursorEnterCallback(Window, cursorEnterCallback);
+            Glfw.SetMouseButtonCallback(Window, mouseButtonCallback);
+            Glfw.SetScrollCallback(Window, scrollCallback);
+            Glfw.SetCharModsCallback(Window, charModsCallback);
+            Glfw.SetFramebufferSizeCallback(Window, framebufferSizeCallback);
+            Glfw.SetWindowRefreshCallback(Window, windowRefreshCallback);
+            Glfw.SetKeyCallback(Window, keyCallback);
+            Glfw.SetWindowMaximizeCallback(Window, windowMaximizeCallback);
+            Glfw.SetWindowContentScaleCallback(Window, windowContentScaleCallback);
         }
 
         private void OnFileDrop(int count, IntPtr pointer)
