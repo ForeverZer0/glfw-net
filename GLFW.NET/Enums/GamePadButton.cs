@@ -1,4 +1,3 @@
-// Disable warning for missing XML comments, I think they are self-explanatory...
 #pragma warning disable 1591
 
 namespace GLFW
@@ -10,7 +9,6 @@ namespace GLFW
     ///         X-Box, etc).
     ///     </para>
     /// </summary>
-    
     public enum GamePadButton : byte
     {
         A = 0,
