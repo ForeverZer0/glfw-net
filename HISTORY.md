@@ -73,10 +73,6 @@
 * Added `InputMode.LockKeyMods`
 * Added `InputMode.RawMouseMotion`
 
-### Misc.
-* Fixed some typos and grammatical errors in XML comments
-* Added this version history
-
 ### Functions/Properties
 
 #### Static Glfw Class
@@ -115,7 +111,11 @@
 * Added `GameWindow.MaximizeChanged`
 * Added `GameWindow.OnMaximize`
 * Added `GameWindow.ContentScaleChanged`
-* Added `GameWindow.OnContentScaleChanged`
+* Added `GameWindow.OnContentScaleChanged
+
+### Misc.
+* Fixed some typos and grammatical errors in XML comments
+* Added this version history`
 
 
 
