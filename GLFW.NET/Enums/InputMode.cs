@@ -60,14 +60,14 @@ namespace GLFW
 		/// 	<see cref="ModiferKeys.CapsLock"/> bit set if caps lock was on when the event occurred and the
 		///		<see cref="ModiferKeys.NumLock"/> bit set if num lock was on.
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		LockKeyMods = 0x00033004,
 		
 		/// <summary>
 		/// 	When the cursor is disabled, raw (unscaled and unaccelerated) mouse motion can be enabled if available.
 		/// 	<seealso cref="Glfw.RawMouseMotionSupported"/>
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		RawMouseMotion = 0x00033005
 	}
 }

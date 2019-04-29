@@ -61,7 +61,7 @@ namespace GLFW.Game
 		/// </summary>
 		/// <value>
 		///     A <see cref="Rectangle" /> in screen coordinates relative to the parent control that represents the size and
-		///     location of the control including its nonclient elements.
+		///     location of the control including its non-client elements.
 		/// </value>
 		public Rectangle Bounds
 		{
@@ -70,6 +70,19 @@ namespace GLFW.Game
 			{
 				Size = value.Size;
 				Position = value.Location;
+			}
+		}
+
+		/// <summary>
+		/// Gets the ratio between the current DPI and the platform's default DPI.
+		/// </summary>
+		/// <seealso cref="Glfw.GetWindowContentScale"/>
+		public PointF ContentScale
+		{
+			get
+			{
+				Glfw.GetWindowContentScale(handle, out var x, out var y);
+				return new PointF(x, y);
 			}
 		}
 
@@ -104,6 +117,12 @@ namespace GLFW.Game
 			}
 			set => Glfw.SetWindowSize(Window, value.Width, value.Height);
 		}
+
+		/// <summary>
+		/// Requests user-attention to this window on platforms that support it,
+		/// <para>Once the user has given attention, usually by focusing the window or application, the system will end the request automatically.</para>
+		/// </summary>
+		public void RequestAttention() => Glfw.RequestWindowAttention(handle);
 
 		/// <summary>
 		///     Gets or sets a string to the system clipboard.
@@ -647,6 +666,8 @@ namespace GLFW.Game
 			Glfw.SetFramebufferSizeCallback(Window, (_, w, h) => OnFramebufferSizeChanged(w, h));
 			Glfw.SetWindowRefreshCallback(Window, _ => Refreshed?.Invoke(this, EventArgs.Empty));
 			Glfw.SetKeyCallback(Window, (_, key, code, state, mods) => OnKey(key, code, state, mods));
+			Glfw.SetWindowMaximizeCallback(Window, (_, maximized) => OnMaximizeChanged(maximized));
+			Glfw.SetWindowContentScaleCallback(Window, (_, x, y) => OnContentScaleChanged(x, y));
 		}
 
 		private void OnFileDrop(int count, IntPtr pointer)
@@ -666,6 +687,12 @@ namespace GLFW.Game
 
 		#region Delegates and Events
 
+		/// <summary>
+		/// Occurs when the window is maximized or restored.
+		/// </summary>
+		
+		public event EventHandler<MaximizeEventArgs> MaximizeChanged; 
+		
 		/// <summary>
 		///     Occurs when the window receives character input.
 		/// </summary>
@@ -868,8 +895,8 @@ namespace GLFW.Game
 		/// <summary>
 		///     Raises the <see cref="MouseMoved" /> event.
 		/// </summary>
-		/// <param name="x">The new x-coordiinate of the mouse.</param>
-		/// <param name="y">The new y-coordiinate of the mouse.</param>
+		/// <param name="x">The new x-coordinate of the mouse.</param>
+		/// <param name="y">The new y-coordinate of the mouse.</param>
 		protected virtual void OnMouseMove(double x, double y) =>
 			MouseMoved?.Invoke(this, new MouseMoveEventArgs(x, y));
 
@@ -897,5 +924,30 @@ namespace GLFW.Game
 			SizeChanged?.Invoke(this, new SizeChangeEventArgs(new Size(width, height)));
 
 		#endregion
+
+		/// <summary>
+		/// Raises the <see cref="Maximized"/> event.
+		/// </summary>
+		/// <param name="maximized">Flag indicating if window is being maximized or restored.</param>
+		protected virtual void OnMaximizeChanged(bool maximized)
+		{
+			MaximizeChanged?.Invoke(this, new MaximizeEventArgs(maximized));
+		}
+
+		/// <summary>
+		/// Occurs when the content scale has been changed.
+		/// </summary>
+		public event EventHandler<ContentScaleEventArgs> ContentScaleChanged;
+
+		/// <summary>
+		/// Raises the <see cref="ContentScaleChanged"/> event.
+		/// </summary>
+		/// <param name="xScale">The new scale on the x-axis.</param>
+		/// <param name="yScale">The new scale on the y-axis.</param>
+		protected virtual void OnContentScaleChanged(float xScale, float yScale)
+		{
+			ContentScaleChanged?.Invoke(this, new ContentScaleEventArgs(xScale, yScale));
+		}
+
 	}
 }

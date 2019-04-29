@@ -86,7 +86,7 @@ namespace GLFW
 		/// 	 Indicates whether the cursor is currently directly over the content area of the window, with no other
 		/// 	 windows between.
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		MouseHover = 0x0002000B
 	}
 }

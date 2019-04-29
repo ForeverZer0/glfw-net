@@ -28,6 +28,8 @@
 
 #endregion
 
+#pragma warning disable 1591
+
 namespace GLFW
 {
 	/// <summary>

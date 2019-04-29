@@ -5,7 +5,7 @@ namespace GLFW
     /// <summary>
     ///     Represents a gamepad axis.
     /// </summary>
-    [GlfwVersion(3, 3)]
+    
     public enum GamePadAxis
     {
         LeftX        = 0,

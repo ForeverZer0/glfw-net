@@ -6,7 +6,7 @@ namespace GLFW
     ///     Describes joystick hat states.
     /// </summary>
     [Flags]
-    [GlfwVersion(3, 3)]
+    
     public enum Hat
     {
         /// <summary>

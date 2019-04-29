@@ -2,15 +2,17 @@
 
 ## GLFW.NET Version 3.3 Changes
 
-* Added supoort for GLFW 3.3 (Released April 15, 2019)
+* Added support for GLFW 3.3 (Released April 15, 2019)
 * Implemented new versioning system to keep with the supported native GLFW version
     * Major and minor parts will match the supported native library
     * Revision major and revision minor parts will indicate changes to the bindings
-* Added `GlfwVersionAttribute` to mark features specific to a GLFW version, starting with 3.3. Any feature without an attribute is assumed to be 3.2 compatible, as that was the original release version for the bindings.
 
 ### Types/Classes/Structs
 * Added `GamePadState` struct
 * Added `WindowContentsScaleCallback` delegate
+* Added `WindowMaximizedCallback` delegate
+* Added `MaximizeEventArgs` class
+* Added `ContentScaleEventArgs` class
 
 ### Enums/Constants
 * Added `ErrorCode.None`
@@ -73,40 +75,50 @@
 
 ### Misc.
 * Fixed some typos and grammatical errors in XML comments
+* Added this version history
 
-### Functions
+### Functions/Properties
 
+#### Static Glfw Class
 * Added `Glfw.InitHint`
 * Added `Glfw.GetError`
+* Added `Glfw.GetMonitorWorkArea`
+* Added `Glfw.GetMonitorContentScale`
+* Added `Glfw.GetMonitorUserPointer`
+* Added `Glfw.SetMonitorUserPointer`
+* Added `Glfw.GetWindowOpacity`
+* Added `Glfw.SetWindowOpacity`
+* Added `Glfw.WindowHintString`
+* Added `Glfw.GetWindowContentScale`
+* Added `Glfw.RequestWindowAttention`
+* Added `Glfw.RawMouseMotionSupported`
+* Added `Glfw.SetWindowMaximizeCallback`
+* Added `Glfw.SetWindowContentScaleCallback`
+* Added `Glfw.GetKeyScanCode`
+* Added `Glfw.SetWindowAttribute`
+* Added `Glfw.GetJoyStickHats`
+* Added `Glfw.GetJoystickGuid`
+* Added `Glfw.GetJoystickUserPointer`
+* Added `Glfw.SetJoystickUserPointer`
+* Added `Glfw.JoystickIsGamepad`
+* Added `Glfw.UpdateGamepadMappings`
+* Added `Glfw.GetGamepadName`
+* Added `Glfw.wGetGamepadState`
+
+#### Objects
+* Added `Monitor.WorkArea`
+* Added `Monitor.ContentScale`
+* Added `Monitor.UserPointer`
+* Added `GameWindow.Opacity`
+* Added `GameWindow.ContentScale`
+* Added `GameWindow.RequestAttention`
+* Added `GameWindow.MaximizeChanged`
+* Added `GameWindow.OnMaximize`
+* Added `GameWindow.ContentScaleChanged`
+* Added `GameWindow.OnContentScaleChanged`
 
 
 
 
 
-
-
-
-
-glfwGetMonitorWorkarea
-glfwGetMonitorContentScale
-glfwGetMonitorUserPointer
-glfwSetMonitorUserPointer
-glfwWindowHintString
-glfwGetWindowContentScale
-glfwGetWindowOpacity
-glfwSetWindowOpacity
-glfwRequestWindowAttention
-glfwSetWindowAttrib
-glfwSetWindowMaximizeCallback
-glfwSetWindowContentScaleCallback
-glfwRawMouseMotionSupported
-glfwGetKeyScancode
-glfwGetJoystickHats
-glfwGetJoystickGUID
-glfwGetJoystickUserPointer
-glfwSetJoystickUserPointer
-glfwJoystickIsGamepad
-glfwUpdateGamepadMappings
-glfwGetGamepadName
-glfwGetGamepadState
 

@@ -325,7 +325,7 @@ namespace GLFW
 		/// 	Specifies whether to also expose joystick hats as buttons, for compatibility with earlier versions of
 		/// 	GLFW (less than 3.3) that did not have <see cref="Glfw.GetJoystickHats"/>.
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		JoystickHatButtons = 0x00050001,
 		
 		/// <summary>
@@ -333,7 +333,7 @@ namespace GLFW
 		/// 	subdirectory of the application's bundle, if present.
 		/// 	<para>macOS ONLY!</para> 
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		CocoaChDirResources = 0x00051001,
 		
 		/// <summary>
@@ -341,7 +341,7 @@ namespace GLFW
 		/// 	created, which is when AppKit is initialized.
 		/// 	<para>macOS ONLY!</para> 
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		CocoaMenuBar = 0x00051002,
 		
 		/// <summary>
@@ -349,7 +349,7 @@ namespace GLFW
 		/// 	<para>Possible values are <c>true</c> and <c>false</c>.</para>
 		/// 	<para>This hint is ignored for windowed mode windows.</para>
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		CenterCursor = 0x00020009,
 
 		/// <summary>
@@ -360,14 +360,14 @@ namespace GLFW
 		///		</para>
 		/// 	<para>Possible values are <c>true</c> and <c>false</c>.</para>
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		TransparentFramebuffer = 0x0002000A,
 		
 		/// <summary>
 		/// 	Specifies whether the window will be given input focus when <see cref="Glfw.ShowWindow"/> is called.
 		/// 	<para>Possible values are <c>true</c> and <c>false</c>.</para>
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		FocusOnShow = 0x0002000C,
 		
 		/// <summary>
@@ -380,7 +380,7 @@ namespace GLFW
 		/// 		of the window size.
 		/// 	</para>
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		ScaleToMonitor = 0x0002200C,
 		
 		/// <summary>
@@ -388,7 +388,7 @@ namespace GLFW
 		///		<para>Possible values are <c>true</c> and <c>false</c>.</para>
 		/// 	<para>This is ignored on other platforms.</para>
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		CocoaRetinaFrameBuffer = 0x00023001,
 		
 		/// <summary>
@@ -397,7 +397,7 @@ namespace GLFW
 		///		<para>macOs only, this is ignored on other platforms.</para>
 		/// 	<para>This is set with <see cref="Glfw.WindowHintString"/>.</para>
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		CocoaFrameName = 0x00023002,
 		
 		/// <summary>
@@ -407,21 +407,21 @@ namespace GLFW
 		///		<para>This only affects systems with both integrated and discrete GPUs, ignored on other platforms.</para>
 		///		<para>Possible values are <c>true</c> and <c>false</c>.</para>
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		CocoaGraphicsSwitching = 0x00023003,
 		
 		/// <summary>
 		/// 	Specifies the desired ASCII encoded class parts of the ICCCM <c>WM_CLASS</c> window property.
 		/// 	<para>Set with <see cref="Glfw.WindowHintString"/>.</para>
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		X11ClassName = 0x00024001,
 		
 		/// <summary>
 		/// 	Specifies the desired ASCII encoded instance parts of the ICCCM <c>WM_CLASS</c> window property.
 		/// 	<para>Set with <see cref="Glfw.WindowHintString"/>.</para>
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		X11InstanceName = 0x00024002
 	}
 }

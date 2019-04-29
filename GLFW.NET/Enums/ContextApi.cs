@@ -48,7 +48,7 @@ namespace GLFW
 		/// <summary>
 		/// 	OS Mesa
 		/// </summary>
-		[GlfwVersion(3, 3)]
+		
 		Mesa = 0x00036003
 	}
 }

@@ -90,6 +90,15 @@ namespace GLFW
 		}
 
 		/// <summary>
+		/// Gets or sets the opacity of the window in the range of <c>0.0</c> and <c>1.0</c> inclusive.
+		/// </summary>
+		public float Opacity
+		{
+			get => Glfw.GetWindowOpacity(handle);
+			set => Glfw.SetWindowOpacity(handle, Math.Min(1.0f, Math.Max(0.0f, value)));
+		}
+
+		/// <summary>
 		///     Returns a hash code for this instance.
 		/// </summary>
 		/// <returns>

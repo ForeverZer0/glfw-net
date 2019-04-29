@@ -44,7 +44,6 @@ namespace GLFW
 		/// <summary>
 		/// 	No error has occurred.
 		/// </summary>
-		[GlfwVersionAttribute(3, 3)]
 		None = 0x00000000,
 
 		/// <summary>

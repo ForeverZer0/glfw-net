@@ -10,7 +10,7 @@ namespace GLFW
     ///         X-Box, etc).
     ///     </para>
     /// </summary>
-    [GlfwVersion(3, 3)]
+    
     public enum GamePadButton : byte
     {
         A = 0,

@@ -172,7 +172,7 @@ namespace GLFW
 		/// <param name="hint">The hint, valid values are <see cref="Hint.JoystickHatButtons"/>,
 		/// 	<see cref="Hint.CocoaMenuBar"/>, and <see cref="Hint.CocoaChDirResources"/>.</param>
 		/// <param name="value">The value of the hint.</param>
-		[GlfwVersion(3, 3)]
+		
 		[DllImport(LIBRARY, EntryPoint = "glfwInitHint", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void InitHint(Hint hint, bool value);
 		
@@ -1119,6 +1119,27 @@ namespace GLFW
 		[DllImport(LIBRARY, EntryPoint = "glfwGetInputMode", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int GetInputMode(Window window, InputMode mode);
 
+		/// <summary>
+		/// 	Returns the position, in screen coordinates, of the upper-left corner of the work area of the specified
+		/// 	monitor along with the work area size in screen coordinates.
+		/// 	<para>
+		///			The work area is defined as the area of the monitor not occluded by the operating system task bar
+		/// 		where present. If no task bar exists then the work area is the monitor resolution in screen
+		/// 		coordinates.
+		/// 	</para>
+		/// </summary>
+		/// <param name="monitor">The monitor to query.</param>
+		/// <param name="x">The x-coordinate.</param>
+		/// <param name="y">The y-coordinate.</param>
+		/// <param name="width">The monitor width.</param>
+		/// <param name="height">The monitor height.</param>
+		
+		[DllImport(LIBRARY, EntryPoint = "glfwGetMonitorWorkarea", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void GetMonitorWorkArea(IntPtr monitor, out int x, out int y, out int width,
+			out int height);
+		
+		
+
 		[DllImport(LIBRARY, EntryPoint = "glfwGetProcAddress", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr GetProcAddress(byte[] procName);
 
@@ -1147,7 +1168,7 @@ namespace GLFW
 		private static extern int GetWindowAttribute(Window window, int attribute);
 		
 		[DllImport(LIBRARY, EntryPoint = "glfwGetError", CallingConvention = CallingConvention.Cdecl)]
-		[GlfwVersion(3, 3)]
+		
 		private static extern ErrorCode GetErrorPrivate(out IntPtr description);
 
 		#endregion
@@ -1503,11 +1524,6 @@ namespace GLFW
 		private static void GlfwError(ErrorCode code, IntPtr message) =>
 			throw new Exception(Util.PtrToStringUTF8(message));
 
-		public static extern void GetJoystickHats(); // TODO
-
-		public static extern void WindowHintString(); // TODO (Ascii and Utf8 overloads)
-
-		public static extern void RawMouseMotionSupported(); // TODO
 
 		#endregion
 
@@ -1541,17 +1557,267 @@ namespace GLFW
 		/// </summary>
 		/// <param name="description">The description string, or <c>null</c> if there is no error.</param>
 		/// <returns>The error code.</returns>
-		[GlfwVersion(3, 3)]
+		
 		public static ErrorCode GetError(out string description)
 		{
 			var code = GetErrorPrivate(out var ptr);
 			description = code == ErrorCode.None ? null : Util.PtrToStringUTF8(ptr);
 			return code;
 		}
+
+		/// <summary>
+		/// 	Retrieves the content scale for the specified monitor. The content scale is the ratio between the
+		/// 	current DPI and the platform's default DPI.
+		/// 	<para>
+		/// 	This is especially important for text and any UI elements. If the pixel dimensions of your UI scaled by
+		/// 	this look appropriate on your machine then it should appear at a reasonable size on other machines
+		/// 	regardless of their DPI and scaling settings. This relies on the system DPI and scaling settings being
+		/// 	somewhat correct.
+		/// 	</para>
+		/// </summary>
+		/// <param name="monitor">The monitor to query.</param>
+		/// <param name="xScale">The scale on the x-axis.</param>
+		/// <param name="yScale">The scale on the y-axis.</param>
+		[DllImport(LIBRARY, EntryPoint = "glfwGetMonitorContentScale", CallingConvention = CallingConvention.Cdecl)]
 		
+		public static extern void GetMonitorContentScale(IntPtr monitor, out float xScale, out float yScale);
 
+		/// <summary>
+		/// Returns the current value of the user-defined pointer of the specified <paramref name="monitor"/>.
+		/// </summary>
+		/// <param name="monitor">The monitor whose pointer to return.</param>
+		/// <returns>The user-pointer, or <see cref="IntPtr.Zero"/> if none is defined.</returns>
+		[DllImport(LIBRARY, EntryPoint = "glfwGetMonitorUserPointer", CallingConvention = CallingConvention.Cdecl)]
+		
+		public static extern IntPtr GetMonitorUserPointer(IntPtr monitor);
+		
+		/// <summary>
+		/// This function sets the user-defined pointer of the specified <paramref name="monitor"/>.
+		/// <para>The current value is retained until the monitor is disconnected.</para> 
+		/// </summary>
+		/// <param name="monitor">The monitor whose pointer to set.</param>
+		/// <param name="pointer">The user-defined pointer value.</param>
+		[DllImport(LIBRARY, EntryPoint = "glfwSetMonitorUserPointer", CallingConvention = CallingConvention.Cdecl)]
+		
+		public static extern void SetMonitorUserPointer(IntPtr monitor, IntPtr pointer);
 
+		/// <summary>
+		/// Returns the opacity of the window, including any decorations.
+		/// </summary>
+		/// <param name="window">The window to query.</param>
+		/// <returns>The opacity value of the specified window, a value between <c>0.0</c> and <c>1.0</c> inclusive.</returns>
+		[DllImport(LIBRARY, EntryPoint = "glfwGetWindowOpacity", CallingConvention = CallingConvention.Cdecl)]
+		
+		public static extern float GetWindowOpacity(IntPtr window);
 
+		/// <summary>
+		/// Sets the opacity of the window, including any decorations.
+		/// <para>The opacity (or alpha) value is a positive finite number between zero and one, where zero is fully transparent and one is fully opaque.</para>
+		/// </summary>
+		/// <param name="window">The window to set the opacity for.</param>
+		/// <param name="opacity">The desired opacity of the specified window.</param>
+		[DllImport(LIBRARY, EntryPoint = "glfwSetWindowOpacity", CallingConvention = CallingConvention.Cdecl)]
+		
+		public static extern void SetWindowOpacity(IntPtr window, float opacity);
+
+		/// <summary>
+		/// Sets hints for the next call to <see cref="CreateWindow"/>. The hints, once set, retain their values until
+		/// changed by a call to this function or <see cref="DefaultWindowHints"/>, or until the library is terminated.
+		/// <para>Some hints are platform specific. These may be set on any platform but they will only affect their
+		/// specific platform. Other platforms will ignore them. Setting these hints requires no platform specific
+		/// headers or functions.</para>
+		/// </summary>
+		/// <param name="hint">The window hit to set.</param>
+		/// <param name="value">The new value of the window hint.</param>
+		[DllImport(LIBRARY, EntryPoint = "glfwWindowHintString", CallingConvention = CallingConvention.Cdecl)]
+		
+		public static extern void WindowHintString(Hint hint, byte[] value);
+
+		/// <summary>
+		/// Helper function to call <see cref="WindowHintString(Hint, byte[])"/> with UTF-8 encoding.
+		/// </summary>
+		/// <param name="hint">The window hit to set.</param>
+		/// <param name="value">The new value of the window hint.</param>
+		
+		public static void WindowHintStringUTF8(Hint hint, string value) =>
+			WindowHintString(hint, Encoding.UTF8.GetBytes(value));
+		
+		/// <summary>
+		/// Helper function to call <see cref="WindowHintString(Hint, byte[])"/> with ASCII encoding.
+		/// </summary>
+		/// <param name="hint">The window hit to set.</param>
+		/// <param name="value">The new value of the window hint.</param>
+		
+		public static void WindowHintStringASCII(Hint hint, string value) =>
+			WindowHintString(hint, Encoding.ASCII.GetBytes(value));
+
+		/// <summary>
+		/// Retrieves the content scale for the specified window. The content scale is the ratio between the current DPI and the platform's default DPI. This is especially important for text and any UI elements. If the pixel dimensions of your UI scaled by this look appropriate on your machine then it should appear at a reasonable size on other machines regardless of their DPI and scaling settings. This relies on the system DPI and scaling settings being somewhat correct.
+		/// <para>On systems where each monitors can have its own content scale, the window content scale will depend on which monitor the system considers the window to be on.</para>
+		/// </summary>
+		/// <param name="window">The window to query.</param>
+		/// <param name="xScale">The content scale on the x-axis.</param>
+		/// <param name="yScale">The content scale on the y-axis.</param>
+		
+		[DllImport(LIBRARY, EntryPoint = "glfwGetWindowContentScale", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void GetWindowContentScale(IntPtr window, out float xScale, out float yScale);
+	
+		/// <summary>
+		/// Requests user attention to the specified <paramref name="window"/>. On platforms where this is not supported, attention is
+		/// requested to the application as a whole.
+		/// <para>Once the user has given attention, usually by focusing the window or application, the system will end the request automatically.</para>
+		/// </summary>
+		/// <param name="window">The window to request user attention to.</param>
+		
+		[DllImport(LIBRARY, EntryPoint = "glfwRequestWindowAttention", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void RequestWindowAttention(IntPtr window);
+
+		/// <summary>
+		/// This function returns whether raw mouse motion is supported on the current system.
+		/// <para>This status does not change after GLFW has been initialized so you only need to check this once. If you attempt to enable raw motion on a system that does not support it, an error will be emitted.</para>
+		/// </summary>
+		/// <returns><c>true</c> if raw mouse motion is supported on the current machine, or <c>false</c> otherwise.</returns>
+		[DllImport(LIBRARY, EntryPoint = "glfwRawMouseMotionSupported", CallingConvention = CallingConvention.Cdecl)]
+		
+		public static extern bool RawMouseMotionSupported();
+
+		/// <summary>
+		/// Sets the maximization callback of the specified <paramref name="window,"/> which is called when the window is maximized or restored.
+		/// </summary>
+		/// <param name="window">The window whose callback to set.</param>
+		/// <param name="cb">The new callback, or <c>null</c> to remove the currently set callback.</param>
+		/// <returns>The previously set callback, or <c>null</c> if no callback was set or the library had not been initialized.</returns>
+		[DllImport(LIBRARY, EntryPoint = "glfwSetWindowMaximizeCallback", CallingConvention = CallingConvention.Cdecl)]
+		public static extern WindowMaximizedCallback SetWindowMaximizeCallback(IntPtr window, WindowMaximizedCallback cb);
+
+		/// <summary>
+		/// Sets the window content scale callback of the specified window, which is called when the content scale of the specified window changes.
+		/// </summary>
+		/// <param name="window">The window whose callback to set.</param>
+		/// <param name="cb">The new callback, or <c>null</c> to remove the currently set callback</param>
+		/// <returns>The previously set callback, or <c>null</c> if no callback was set or the library had not been initialized.</returns>
+		[DllImport(LIBRARY, EntryPoint = "glfwSetWindowContentScaleCallback", CallingConvention = CallingConvention.Cdecl)]
+		public static extern WindowContentsScaleCallback SetWindowContentScaleCallback(IntPtr window, WindowContentsScaleCallback cb);
+
+		/// <summary>
+		/// Returns the platform-specific scan-code of the specified key.
+		/// <para>If the key is <see cref="Keys.Unknown"/> or does not exist on the keyboard this method will return -1.</para>
+		/// </summary>
+		/// <param name="key">The named key to query.</param>
+		/// <returns>The platform-specific scan-code for the key, or -1 if an error occurred.</returns>
+		[DllImport(LIBRARY, EntryPoint = "glfwGetKeyScancode", CallingConvention = CallingConvention.Cdecl)]
+		public static extern int GetKeyScanCode(Keys key);
+
+		/// <summary>
+		/// Sets the value of an attribute of the specified window.
+		/// </summary>
+		/// <param name="window">The window to set the attribute for
+		///	<para>Valid attributes include:</para>
+		///	<para><see cref="WindowAttribute.Decorated"/></para>
+		///	<para><see cref="WindowAttribute.Resizable"/></para>
+		/// <para><see cref="WindowAttribute.Floating"/></para>
+		/// <para><see cref="WindowAttribute.AutoIconify"/></para>
+		/// <para><see cref="WindowAttribute.Focused"/></para>
+		/// </param>
+		/// <param name="attr">A supported window attribute.</param>
+		/// <param name="value">The value to set.</param>
+		[DllImport(LIBRARY, EntryPoint = "glfwSetWindowAttrib", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetWindowAttribute(IntPtr window, WindowAttribute attr, bool value);
+
+		[DllImport(LIBRARY, EntryPoint = "glfwGetJoystickHats", CallingConvention = CallingConvention.Cdecl)]
+		private static extern IntPtr GetJoystickHats(int joystickId, out int count);
+
+		/// <summary>
+		/// Returns the state of all hats of the specified joystick as a bitmask.
+		/// </summary>
+		/// <param name="joystickId">The joystick to query.</param>
+		/// <returns>A bitmask enumeration containing the state of the joystick hats.</returns>
+		public static Hat GetJoystickHats(int joystickId)
+		{
+			var hat = Hat.Centered;
+			var ptr = GetJoystickHats(joystickId, out var count);
+			for (var i = 0; i < count; i++)
+			{
+				var value = Marshal.ReadByte(ptr, i);
+				hat |= (Hat) value;
+			}
+			return hat;
+		}
+
+		[DllImport(LIBRARY, EntryPoint = "glfwGetJoystickGUID", CallingConvention = CallingConvention.Cdecl)]
+		private static extern IntPtr GetJoystickGuidPrivate(int joystickId);
+
+		/// <summary>
+		/// Returns the SDL compatible GUID, as a hexadecimal string, of the specified joystick.
+		/// <para>The GUID is what connects a joystick to a gamepad mapping. A connected joystick will always have a GUID even if there is no gamepad mapping assigned to it.</para>
+		/// </summary>
+		/// <param name="joystickId">The joystick to query.</param>
+		/// <returns>The GUID of the joystick, or <c>null</c> if the joystick is not present or an error occurred.</returns>
+		public static string GetJoystickGuid(int joystickId)
+		{
+			var ptr = GetJoystickGuidPrivate(joystickId);
+			return ptr == IntPtr.Zero ? null : Util.PtrToStringUTF8(ptr);
+		}
+
+		/// <summary>
+		/// This function returns the current value of the user-defined pointer of the specified joystick.
+		/// </summary>
+		/// <param name="joystickId">The joystick whose pointer to return.</param>
+		/// <returns>The user-defined pointer, or <see cref="IntPtr.Zero"/> if never defined.</returns>
+		[DllImport(LIBRARY, EntryPoint = "glfwGetJoystickUserPointer", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr GetJoystickUserPointer(int joystickId);
+		
+		/// <summary>
+		/// This function sets the user-defined pointer of the specified joystick.
+		/// <para>The current value is retained until the joystick is disconnected.</para>
+		/// </summary>
+		/// <param name="joystickId">The joystick whose pointer to set.</param>
+		/// <param name="pointer">The new value.</param>
+		[DllImport(LIBRARY, EntryPoint = "glfwSetJoystickUserPointer", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SetJoystickUserPointer(int joystickId, IntPtr pointer);
+
+		/// <summary>
+		/// Returns whether the specified joystick is both present and has a gamepad mapping.
+		/// </summary>
+		/// <param name="joystickId">The joystick to query.</param>
+		/// <returns><c>true</c> if a joystick is both present and has a gamepad mapping, or <c>false</c> otherwise.</returns>
+		[DllImport(LIBRARY, EntryPoint = "glfwJoystickIsGamepad", CallingConvention = CallingConvention.Cdecl)]
+		public static extern bool JoystickIsGamepad(int joystickId);
+
+		[DllImport(LIBRARY, EntryPoint = "glfwUpdateGamepadMappings", CallingConvention = CallingConvention.Cdecl)]
+		private static extern bool UpdateGamepadMappings(byte[] mappings);
+
+		/// <summary>
+		/// Parses the specified string and updates the internal list with any gamepad mappings it finds.
+		/// <para> This string may contain either a single gamepad mapping or many mappings separated by newlines. The parser supports the full format of the SDL <c>gamecontrollerdb.txt</c> source file including empty lines and comments.</para>
+		/// </summary>
+		/// <param name="mappings">The string containing the gamepad mappings.</param>
+		/// <returns><c>true</c> if successful, or <c>false</c> if an error occurred.</returns>
+		public static bool UpdateGamepadMappings(string mappings) =>
+			UpdateGamepadMappings(Encoding.ASCII.GetBytes(mappings));
+
+		[DllImport(LIBRARY, EntryPoint = "glfwGetGamepadName", CallingConvention = CallingConvention.Cdecl)]
+		private static extern IntPtr GetGamepadNamePrivate(int gamepadId);
+
+		/// <summary>
+		/// Returns the human-readable name of the gamepad from the gamepad mapping assigned to the specified joystick.
+		/// </summary>
+		/// <param name="gamepadId">The joystick to query.</param>
+		/// <returns>The name of the gamepad, or <c>null</c> if the joystick is not present, does not have a mapping or an error occurred.</returns>
+		public static string GetGamepadName(int gamepadId)
+		{
+			var ptr = GetGamepadNamePrivate(gamepadId);
+			return ptr == IntPtr.Zero ? null : Util.PtrToStringUTF8(ptr);
+		}
+
+		/// <summary>
+		/// Retrieves the state of the specified joystick remapped to an Xbox-like gamepad.
+		/// </summary>
+		/// <param name="id">The joystick to query.</param>
+		/// <param name="state">The gamepad input state of the joystick.</param>
+		/// <returns><c>true</c> if successful, or <c>false</c> if no joystick is connected, it has no gamepad mapping or an error occurred.</returns>
+		[DllImport(LIBRARY, EntryPoint = "glfwGetGamepadState", CallingConvention = CallingConvention.Cdecl)]
+		public static extern bool GetGamepadState(int id, out GamePadState state);
 
 	}
 }
