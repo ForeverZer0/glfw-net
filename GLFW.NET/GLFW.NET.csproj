@@ -9,14 +9,9 @@
     <RepositoryUrl>https://github.com/ForeverZer0/glfw-net</RepositoryUrl>
     <PackageProjectUrl>https://github.com/ForeverZer0/glfw-net</PackageProjectUrl>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <PackageReleaseNotes>*v1.0.1
-- Fixed bug with calling the GameWindow constructor when using a context-less window (Vulkan).
-*v1.0.0
-- Built with Visual Studio 2017 15.3
-- Targets .NET Standard 2.0 for maximum compatibility with .NET Framework and .NET Core
-- Covers 100% GLFW 3.2.1 (latest version) exported functions, including Vulkan context
-- Simplified "GameWindow" class to emulate WinForms, with similar properties, events, etc.
-</PackageReleaseNotes>
+    <PackageReleaseNotes>- Implemented new GLFW 3.3 features
+- Large refactorings
+- Code improvements</PackageReleaseNotes>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>GLFW OpenGL OpenGLES ES C# F# VB Csharp CS Windows Mono Linux Mac OSX Context NET Standard Core Framework Game Native Form Cross Platform Unix netcore netstandard dotnet winform</PackageTags>
     <Copyright>Copyright © Eric Freed 2018</Copyright>
@@ -24,6 +19,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageVersion>3.3.0</PackageVersion>
+    <Title>glfw-net</Title>
+    <PackageIconUrl>https://github.com/ForeverZer0/glfw-net/raw/master/favicons.png</PackageIconUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

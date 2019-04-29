@@ -19,20 +19,6 @@ Complete, cross-platform, managed wrapper around the GLFW library for creating n
 ## Getting Started
 The recommended way to use this library is to download the source and include directly within your application, as this offers the highest amount of control over dependency loading. It was build upon [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) to target the largest number of platforms and frameworks, and thus you will need to fine-tune the dependency loading to your specific needs (see below).
 
-Creating a window is simple. 
-```csharp
-using (var window = new GameWindow(640, 480, "MyWindowTitle"))
-{
-    while (!window.IsClosing)
-    {
-        // OpenGL rendering
-
-        window.SwapBuffers();
-        Glfw.PollEvents();
-    }
-}
-```
-
 ### .NET Core
 In all platforms utilizing .NET Core, the `AssemblyLoadContext` can be used to resolve native dependencies at runtime, based on platform, architecture, etc.
 
@@ -44,6 +30,26 @@ Unix users need only have GLFW built and installed on the system globally, and n
 
 ## IMPORTANT!
 The Windows and Unix library name differ. On Windows, the library name is `glfw3` (always exclude file extensions), and on Unix systems, it is only `glfw` without the major version suffix. By default, the `Glfw.LIBRARY` constant is hard-coded in the Windows format, so this will either need changed, or require you to resolve the dependencies manually. 
+
+## Native Window Creation
+Once you have your dependencies taken care of, creating a window is simple. 
+```csharp
+using (var window = new NativeWindow(800, 600, "MyWindowTitle"))
+{
+    // Main application loop
+    while (!window.IsClosing)
+    {
+        // OpenGL rendering
+        // Implement any timing for flow control, etc (see Glfw.GetTime())
+        
+        // Swap the front/back buffers
+        window.SwapBuffers();
+        
+        // Poll native operating system events (must be called or OS will think application is hanging)
+        Glfw.PollEvents();
+    }
+}
+```
 
 ## Source Code
 Source code can be found at GitHub: https://github.com/ForeverZer0/glfw-net
