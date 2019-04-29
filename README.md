@@ -2,7 +2,7 @@
 Complete, cross-platform, managed wrapper around the GLFW library for creating native windows with an OpenGL context.
 
 ## Features
-* Wraps 100% of the GLFW library (3.2.1), including Vulkan
+* Wraps 100% of the GLFW library (3.3), including Vulkan
 * Cross-platform
 * Built upon the .NET Standard 2.0, for full compatibility with .NET Framework, .NET Core, and Mono
 * Detailed XML documentation for full IntelliSense in Visual Studio, etc. 
