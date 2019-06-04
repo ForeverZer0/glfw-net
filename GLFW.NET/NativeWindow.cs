@@ -836,7 +836,7 @@ namespace GLFW
         /// </summary>
         /// <param name="codePoint">The Unicode code point.</param>
         /// <param name="mods">The modifier keys present.</param>
-        protected virtual void OnCharacterInput(uint codePoint, ModiferKeys mods)
+        protected virtual void OnCharacterInput(uint codePoint, ModifierKeys mods)
         {
             CharacterInput?.Invoke(this, new CharEventArgs(codePoint, mods));
         }
@@ -900,7 +900,7 @@ namespace GLFW
         /// <seealso cref="KeyRelease" />
         /// <seealso cref="KeyRepeat" />
         /// <seealso cref="KeyAction" />
-        protected virtual void OnKey(Keys key, int scanCode, InputState state, ModiferKeys mods)
+        protected virtual void OnKey(Keys key, int scanCode, InputState state, ModifierKeys mods)
         {
             var args = new KeyEventArgs(key, scanCode, state, mods);
             if (state.HasFlag(InputState.Press))
@@ -918,7 +918,7 @@ namespace GLFW
         /// <param name="button">The mouse button.</param>
         /// <param name="state">The state of the mouse button.</param>
         /// <param name="modifiers">The modifier keys.</param>
-        protected virtual void OnMouseButton(MouseButton button, InputState state, ModiferKeys modifiers)
+        protected virtual void OnMouseButton(MouseButton button, InputState state, ModifierKeys modifiers)
         {
             MouseButton?.Invoke(this, new MouseButtonEventArgs(button, state, modifiers));
         }

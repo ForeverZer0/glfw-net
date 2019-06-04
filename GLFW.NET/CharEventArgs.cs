@@ -15,7 +15,7 @@ namespace GLFW
         /// </summary>
         /// <param name="codePoint">A UTF-32 code point.</param>
         /// <param name="mods">The modifier keys present.</param>
-        public CharEventArgs(uint codePoint, ModiferKeys mods)
+        public CharEventArgs(uint codePoint, ModifierKeys mods)
         {
             CodePoint = codePoint;
             ModifierKeys = mods;
@@ -48,7 +48,7 @@ namespace GLFW
         /// <value>
         ///     The modifier keys.
         /// </value>
-        public ModiferKeys ModifierKeys { get; }
+        public ModifierKeys ModifierKeys { get; }
 
         #endregion
     }
