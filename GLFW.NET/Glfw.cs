@@ -377,8 +377,7 @@ namespace GLFW
                 var offset = 0;
                 for (var i = 0; i < count; i++, offset += IntPtr.Size)
                 {
-                    var p = Marshal.ReadInt32(ptr + offset);
-                    monitors[i] = Marshal.PtrToStructure<Monitor>(new IntPtr(p));
+                    monitors[i] = Marshal.PtrToStructure<Monitor>(ptr + offset);
                 }
 
                 return monitors;
