@@ -16,7 +16,15 @@ namespace GLFW
     public static class Native
     {
         #region External
-
+	
+        /// <summary>
+        /// 	Returns the GLXContext of the specified window.
+        /// </summary>
+        /// <param name="window">A window instance.</param>
+        /// <returns>The GLXContext of the specified window, or <see cref="GLXContext.None"/> if an error occurred.</returns>
+        [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetGLXContext", CallingConvention = CallingConvention.Cdecl)]
+        public static extern GLXContext GetGLXContext(Window window);
+        
         /// <summary>
         ///     Returns the EGLContext of the specified window.
         /// </summary>
