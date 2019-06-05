@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using JetBrains.Annotations;
 
 namespace GLFW
 {
@@ -14,6 +15,8 @@ namespace GLFW
         /// </summary>
         /// <param name="ptr">Pointer to the start of the string.</param>
         /// <returns>Managed string created from read UTF-8 bytes.</returns>
+        [NotNull]
+        // ReSharper disable once InconsistentNaming
         public static string PtrToStringUTF8(IntPtr ptr)
         {
             var length = 0;

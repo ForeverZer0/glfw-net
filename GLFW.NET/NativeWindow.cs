@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
@@ -522,7 +523,7 @@ namespace GLFW
 
         /// <summary>
         ///     Closes this instance.
-        ///     <para>This invalidates the window, but does not free its resouces.</para>
+        ///     <para>This invalidates the window, but does not free its resources.</para>
         /// </summary>
         public new void Close()
         {
@@ -591,24 +592,7 @@ namespace GLFW
         /// <summary>
         ///     Sets the window monitor.
         ///     <para>
-        ///         If <paramref name="monitor" /> is not <see cref="GLFW.Monitor.None" />, the window will be fullscreened and
-        ///         dimensions ignored.
-        ///     </para>
-        /// </summary>
-        /// <param name="monitor">The desired monitor, or <see cref="GLFW.Monitor.None" /> to set windowed mode.</param>
-        /// <param name="x">The desired x-coordinate of the upper-left corner of the client area.</param>
-        /// <param name="y">The desired y-coordinate of the upper-left corner of the client area.</param>
-        /// <param name="width">The desired width, in screen coordinates, of the client area or video mode.</param>
-        /// <param name="height">The desired height, in screen coordinates, of the client area or video mode.</param>
-        public void SetMonitor(Monitor monitor, int x, int y, int width, int height)
-        {
-            SetMonitor(monitor, x, y, width, height, (int) Constants.Default);
-        }
-
-        /// <summary>
-        ///     Sets the window monitor.
-        ///     <para>
-        ///         If <paramref name="monitor" /> is not <see cref="GLFW.Monitor.None" />, the window will be fullscreened and
+        ///         If <paramref name="monitor" /> is not <see cref="GLFW.Monitor.None" />, the window will be full-screened and
         ///         dimensions ignored.
         ///     </para>
         /// </summary>
@@ -618,13 +602,13 @@ namespace GLFW
         /// <param name="width">The desired width, in screen coordinates, of the client area or video mode.</param>
         /// <param name="height">The desired height, in screen coordinates, of the client area or video mode.</param>
         /// <param name="refreshRate">The desired refresh rate, in Hz, of the video mode, or <see cref="Constants.Default" />.</param>
-        public void SetMonitor(Monitor monitor, int x, int y, int width, int height, int refreshRate)
+        public void SetMonitor(Monitor monitor, int x, int y, int width, int height, int refreshRate = (int) Constants.Default)
         {
             Glfw.SetWindowMonitor(Window, monitor, x, y, width, height, refreshRate);
         }
 
         /// <summary>
-        ///     Sets the imits of the client size  area of the window.
+        ///     Sets the limits of the client size  area of the window.
         /// </summary>
         /// <param name="minSize">The minimum size of the client area.</param>
         /// <param name="maxSize">The maximum size of the client area.</param>
@@ -634,7 +618,7 @@ namespace GLFW
         }
 
         /// <summary>
-        ///     Sets the imits of the client size  area of the window.
+        ///     Sets the limits of the client size  area of the window.
         /// </summary>
         /// <param name="minWidth">The minimum width of the client area.</param>
         /// <param name="minHeight">The minimum height of the client area.</param>
@@ -881,6 +865,7 @@ namespace GLFW
         ///     Raises the <see cref="FocusChanged" /> event.
         /// </summary>
         /// <param name="focusing"><c>true</c> if window is gaining focus, otherwise <c>false</c>.</param>
+        // ReSharper disable once UnusedParameter.Global
         protected virtual void OnFocusChanged(bool focusing) { FocusChanged?.Invoke(this, EventArgs.Empty); }
 
         /// <summary>
@@ -964,6 +949,7 @@ namespace GLFW
         /// </summary>
         /// <param name="x">The new position on the x-axis.</param>
         /// <param name="y">The new position on the y-axis.</param>
+        [SuppressMessage("ReSharper", "UnusedParameter.Global")]
         protected virtual void OnPositionChanged(double x, double y) { PositionChanged?.Invoke(this, EventArgs.Empty); }
 
         /// <summary>
