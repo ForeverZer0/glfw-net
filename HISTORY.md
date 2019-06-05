@@ -4,7 +4,8 @@
 
 * Changed default library name from `glfw3` to `glfw` (See [Issue#8](https://github.com/ForeverZer0/glfw-net/issues/8))
 * Merged [Pull Request#7](https://github.com/ForeverZer0/glfw-net/pull/7) to implement storing managed references to delegates used for native callbacks, as this caused errors with .NET Framework when the reference got lost.
-
+* Merged [Pull Request#11](https://github.com/ForeverZer0/glfw-net/pull/11) to fix critical error when using static `Glfw.Monitors` property
+* Default `NativeWindow` resolution is now `800x600` from `640x480` if not specified
 
 ## GLFW.NET Version 3.3 Changes
 

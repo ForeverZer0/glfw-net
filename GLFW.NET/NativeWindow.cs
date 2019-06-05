@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using JetBrains.Annotations;
 using Microsoft.Win32.SafeHandles;
 
 namespace GLFW
@@ -140,6 +141,7 @@ namespace GLFW
         /// <value>
         ///     The clipboard string.
         /// </value>
+        [NotNull]
         public string Clipboard
         {
             get => Glfw.GetClipboardString(Window);
@@ -173,6 +175,7 @@ namespace GLFW
         /// <value>
         ///     The HWND pointer.
         /// </value>
+        // ReSharper disable once IdentifierTypo
         public IntPtr Hwnd
         {
             get
@@ -381,13 +384,14 @@ namespace GLFW
         /// <value>
         ///     The title.
         /// </value>
+        [CanBeNull]
         public string Title
         {
             get => title;
             set
             {
                 title = value;
-                Glfw.SetWindowTitle(Window, value);
+                Glfw.SetWindowTitle(Window, value ?? string.Empty);
             }
         }
 
@@ -466,7 +470,7 @@ namespace GLFW
         /// <summary>
         ///     Initializes a new instance of the <see cref="NativeWindow" /> class.
         /// </summary>
-        public NativeWindow() : this(640, 480, string.Empty, Monitor.None, Window.None) { }
+        public NativeWindow() : this(800, 600, string.Empty, Monitor.None, Window.None) { }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="NativeWindow" /> class.
@@ -474,7 +478,7 @@ namespace GLFW
         /// <param name="width">The desired width, in screen coordinates, of the window. This must be greater than zero.</param>
         /// <param name="height">The desired height, in screen coordinates, of the window. This must be greater than zero.</param>
         /// <param name="title">The initial window title.</param>
-        public NativeWindow(int width, int height, string title) : this(width, height, title, Monitor.None, Window.None)
+        public NativeWindow(int width, int height, [CanBeNull] string title) : this(width, height, title, Monitor.None, Window.None)
         { }
 
         /// <summary>
@@ -488,10 +492,10 @@ namespace GLFW
         ///     A window instance whose context to share resources with, or <see cref="GLFW.Window.None" /> to not share
         ///     resources..
         /// </param>
-        public NativeWindow(int width, int height, string title, Monitor monitor, Window share) : base(true)
+        public NativeWindow(int width, int height, [CanBeNull] string title, Monitor monitor, Window share) : base(true)
         {
-            this.title = title;
-            Window = Glfw.CreateWindow(width, height, title, monitor, share);
+            this.title = title ?? string.Empty;
+            Window = Glfw.CreateWindow(width, height, title ?? string.Empty, monitor, share);
             SetHandle(Window);
             if (Glfw.GetClientApi(this) != ClientApi.None)
                 MakeCurrent();
@@ -582,7 +586,7 @@ namespace GLFW
         ///     <para>Standard sizes are 16x16, 32x32, and 48x48.</para>
         /// </summary>
         /// <param name="images">One or more images to set as an icon.</param>
-        public void SetIcons(params Image[] images) { Glfw.SetWindowIcon(Window, images.Length, images); }
+        public void SetIcons([NotNull] params Image[] images) { Glfw.SetWindowIcon(Window, images.Length, images); }
 
         /// <summary>
         ///     Sets the window monitor.
@@ -716,15 +720,15 @@ namespace GLFW
 
         private void OnFileDrop(int count, IntPtr pointer)
         {
-            var filenames = new string[count];
+            var paths = new string[count];
             var offset = 0;
             for (var i = 0; i < count; i++, offset += IntPtr.Size)
             {
                 var ptr = new IntPtr(Marshal.ReadInt32(pointer + offset));
-                filenames[i] = Util.PtrToStringUTF8(ptr);
+                paths[i] = Util.PtrToStringUTF8(ptr);
             }
 
-            OnFileDrop(filenames);
+            OnFileDrop(paths);
         }
 
         #endregion
@@ -867,10 +871,10 @@ namespace GLFW
         /// <summary>
         ///     Raises the <see cref="FileDrop" /> event.
         /// </summary>
-        /// <param name="filenames">The filenames of the dropped files.</param>
-        protected virtual void OnFileDrop(string[] filenames)
+        /// <param name="paths">The filenames of the dropped files.</param>
+        protected virtual void OnFileDrop([NotNull] string[] paths)
         {
-            FileDrop?.Invoke(this, new FileDropEventArgs(filenames));
+            FileDrop?.Invoke(this, new FileDropEventArgs(paths));
         }
 
         /// <summary>
