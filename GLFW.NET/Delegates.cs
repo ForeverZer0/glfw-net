@@ -79,7 +79,7 @@ namespace GLFW
     /// <param name="modifiers">Flags describing which modifier keys were held down.</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void MouseButtonCallback(IntPtr window, MouseButton button, InputState state,
-        ModiferKeys modifiers);
+        ModifierKeys modifiers);
 
     /// <summary>
     ///     This is the function signature for Unicode character callback functions.
@@ -96,7 +96,7 @@ namespace GLFW
     /// <param name="codePoint">The Unicode code point of the character.</param>
     /// <param name="mods">Bit field describing which modifier keys were held down.</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void CharModsCallback(IntPtr window, uint codePoint, ModiferKeys mods);
+    public delegate void CharModsCallback(IntPtr window, uint codePoint, ModifierKeys mods);
 
     /// <summary>
     ///     This is the function signature for keyboard key callback functions.
@@ -107,7 +107,7 @@ namespace GLFW
     /// <param name="state">The state of the key.</param>
     /// <param name="mods">	Bit field describing which modifier keys were held down.</param>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void KeyCallback(IntPtr window, Keys key, int scanCode, InputState state, ModiferKeys mods);
+    public delegate void KeyCallback(IntPtr window, Keys key, int scanCode, InputState state, ModifierKeys mods);
 
     /// <summary>
     ///     This is the function signature for joystick configuration callback functions.

@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using JetBrains.Annotations;
 
 #pragma warning disable 0419
 
@@ -125,6 +126,7 @@ namespace GLFW
         /// </summary>
         /// <param name="hint">The window hit to set.</param>
         /// <param name="value">The new value of the window hint.</param>
+        // ReSharper disable once InconsistentNaming
         public static void WindowHintStringUTF8(Hint hint, string value)
         {
             WindowHintString(hint, Encoding.UTF8.GetBytes(value));
@@ -135,6 +137,7 @@ namespace GLFW
         /// </summary>
         /// <param name="hint">The window hit to set.</param>
         /// <param name="value">The new value of the window hint.</param>
+        // ReSharper disable once InconsistentNaming
         public static void WindowHintStringASCII(Hint hint, string value)
         {
             WindowHintString(hint, Encoding.ASCII.GetBytes(value));
@@ -305,7 +308,7 @@ namespace GLFW
         public static extern bool JoystickIsGamepad(int joystickId);
 
         [DllImport(LIBRARY, EntryPoint = "glfwUpdateGamepadMappings", CallingConvention = CallingConvention.Cdecl)]
-        private static extern bool UpdateGamepadMappings(byte[] mappings);
+        private static extern bool UpdateGamepadMappings([NotNull] byte[] mappings);
 
         /// <summary>
         ///     Parses the specified string and updates the internal list with any gamepad mappings it finds.
@@ -1477,7 +1480,7 @@ namespace GLFW
         ///     resources..
         /// </param>
         /// <returns>The created window, or <see cref="Window.None" /> if an error occurred.</returns>
-        public static Window CreateWindow(int width, int height, string title, Monitor monitor, Window share)
+        public static Window CreateWindow(int width, int height, [NotNull] string title, Monitor monitor, Window share)
         {
             return CreateWindow(width, height, Encoding.UTF8.GetBytes(title), monitor, share);
         }
@@ -1498,6 +1501,7 @@ namespace GLFW
         /// </summary>
         /// <param name="window">A window instance.</param>
         /// <returns>The contents of the clipboard as a UTF-8 encoded string, or <c>null</c> if an error occurred.</returns>
+        [NotNull]
         public static string GetClipboardString(Window window)
         {
             return Util.PtrToStringUTF8(GetClipboardStringInternal(window));

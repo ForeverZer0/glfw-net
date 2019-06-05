@@ -16,7 +16,7 @@ namespace GLFW
         /// <param name="button">The mouse button.</param>
         /// <param name="state">The state of the <paramref name="button" />.</param>
         /// <param name="modifiers">The modifier keys.</param>
-        public MouseButtonEventArgs(MouseButton button, InputState state, ModiferKeys modifiers)
+        public MouseButtonEventArgs(MouseButton button, InputState state, ModifierKeys modifiers)
         {
             Button = button;
             Action = state;
@@ -49,7 +49,7 @@ namespace GLFW
         /// <value>
         ///     The modifiers.
         /// </value>
-        public ModiferKeys Modifiers { get; }
+        public ModifierKeys Modifiers { get; }
 
         #endregion
     }

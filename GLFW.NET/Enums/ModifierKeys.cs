@@ -6,7 +6,7 @@ namespace GLFW
     ///     Describes bitwise combination of modifier keys.
     /// </summary>
     [Flags]
-    public enum ModiferKeys
+    public enum ModifierKeys
     {
         /// <summary>
         ///     Either of the Shift keys.

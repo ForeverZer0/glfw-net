@@ -17,7 +17,7 @@ namespace GLFW
         /// <param name="scanCode">The platform scan code of the key.</param>
         /// <param name="state">The state of the key.</param>
         /// <param name="mods">The modifier keys.</param>
-        public KeyEventArgs(Keys key, int scanCode, InputState state, ModiferKeys mods)
+        public KeyEventArgs(Keys key, int scanCode, InputState state, ModifierKeys mods)
         {
             Key = key;
             ScanCode = scanCode;
@@ -43,7 +43,7 @@ namespace GLFW
         /// <value>
         ///     The modifiers.
         /// </value>
-        public ModiferKeys Modifiers { get; }
+        public ModifierKeys Modifiers { get; }
 
         /// <summary>
         ///     Gets the platform scan code for the key.

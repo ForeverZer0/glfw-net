@@ -27,8 +27,8 @@
 
 	    /// <summary>
 	    ///     When this input mode is enabled, any callback that receives modifier bits will have the
-	    ///     <see cref="ModiferKeys.CapsLock" /> bit set if caps lock was on when the event occurred and the
-	    ///     <see cref="ModiferKeys.NumLock" /> bit set if num lock was on.
+	    ///     <see cref="ModifierKeys.CapsLock" /> bit set if caps lock was on when the event occurred and the
+	    ///     <see cref="ModifierKeys.NumLock" /> bit set if num lock was on.
 	    /// </summary>
 	    LockKeyMods = 0x00033004,
 

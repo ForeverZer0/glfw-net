@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using JetBrains.Annotations;
 using Microsoft.Win32.SafeHandles;
 
 namespace GLFW
@@ -140,6 +142,7 @@ namespace GLFW
         /// <value>
         ///     The clipboard string.
         /// </value>
+        [NotNull]
         public string Clipboard
         {
             get => Glfw.GetClipboardString(Window);
@@ -173,6 +176,7 @@ namespace GLFW
         /// <value>
         ///     The HWND pointer.
         /// </value>
+        // ReSharper disable once IdentifierTypo
         public IntPtr Hwnd
         {
             get
@@ -381,13 +385,14 @@ namespace GLFW
         /// <value>
         ///     The title.
         /// </value>
+        [CanBeNull]
         public string Title
         {
             get => title;
             set
             {
                 title = value;
-                Glfw.SetWindowTitle(Window, value);
+                Glfw.SetWindowTitle(Window, value ?? string.Empty);
             }
         }
 
@@ -466,7 +471,7 @@ namespace GLFW
         /// <summary>
         ///     Initializes a new instance of the <see cref="NativeWindow" /> class.
         /// </summary>
-        public NativeWindow() : this(640, 480, string.Empty, Monitor.None, Window.None) { }
+        public NativeWindow() : this(800, 600, string.Empty, Monitor.None, Window.None) { }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="NativeWindow" /> class.
@@ -474,7 +479,7 @@ namespace GLFW
         /// <param name="width">The desired width, in screen coordinates, of the window. This must be greater than zero.</param>
         /// <param name="height">The desired height, in screen coordinates, of the window. This must be greater than zero.</param>
         /// <param name="title">The initial window title.</param>
-        public NativeWindow(int width, int height, string title) : this(width, height, title, Monitor.None, Window.None)
+        public NativeWindow(int width, int height, [CanBeNull] string title) : this(width, height, title, Monitor.None, Window.None)
         { }
 
         /// <summary>
@@ -488,10 +493,10 @@ namespace GLFW
         ///     A window instance whose context to share resources with, or <see cref="GLFW.Window.None" /> to not share
         ///     resources..
         /// </param>
-        public NativeWindow(int width, int height, string title, Monitor monitor, Window share) : base(true)
+        public NativeWindow(int width, int height, [CanBeNull] string title, Monitor monitor, Window share) : base(true)
         {
-            this.title = title;
-            Window = Glfw.CreateWindow(width, height, title, monitor, share);
+            this.title = title ?? string.Empty;
+            Window = Glfw.CreateWindow(width, height, title ?? string.Empty, monitor, share);
             SetHandle(Window);
             if (Glfw.GetClientApi(this) != ClientApi.None)
                 MakeCurrent();
@@ -518,7 +523,7 @@ namespace GLFW
 
         /// <summary>
         ///     Closes this instance.
-        ///     <para>This invalidates the window, but does not free its resouces.</para>
+        ///     <para>This invalidates the window, but does not free its resources.</para>
         /// </summary>
         public new void Close()
         {
@@ -582,29 +587,12 @@ namespace GLFW
         ///     <para>Standard sizes are 16x16, 32x32, and 48x48.</para>
         /// </summary>
         /// <param name="images">One or more images to set as an icon.</param>
-        public void SetIcons(params Image[] images) { Glfw.SetWindowIcon(Window, images.Length, images); }
+        public void SetIcons([NotNull] params Image[] images) { Glfw.SetWindowIcon(Window, images.Length, images); }
 
         /// <summary>
         ///     Sets the window monitor.
         ///     <para>
-        ///         If <paramref name="monitor" /> is not <see cref="GLFW.Monitor.None" />, the window will be fullscreened and
-        ///         dimensions ignored.
-        ///     </para>
-        /// </summary>
-        /// <param name="monitor">The desired monitor, or <see cref="GLFW.Monitor.None" /> to set windowed mode.</param>
-        /// <param name="x">The desired x-coordinate of the upper-left corner of the client area.</param>
-        /// <param name="y">The desired y-coordinate of the upper-left corner of the client area.</param>
-        /// <param name="width">The desired width, in screen coordinates, of the client area or video mode.</param>
-        /// <param name="height">The desired height, in screen coordinates, of the client area or video mode.</param>
-        public void SetMonitor(Monitor monitor, int x, int y, int width, int height)
-        {
-            SetMonitor(monitor, x, y, width, height, (int) Constants.Default);
-        }
-
-        /// <summary>
-        ///     Sets the window monitor.
-        ///     <para>
-        ///         If <paramref name="monitor" /> is not <see cref="GLFW.Monitor.None" />, the window will be fullscreened and
+        ///         If <paramref name="monitor" /> is not <see cref="GLFW.Monitor.None" />, the window will be full-screened and
         ///         dimensions ignored.
         ///     </para>
         /// </summary>
@@ -614,13 +602,13 @@ namespace GLFW
         /// <param name="width">The desired width, in screen coordinates, of the client area or video mode.</param>
         /// <param name="height">The desired height, in screen coordinates, of the client area or video mode.</param>
         /// <param name="refreshRate">The desired refresh rate, in Hz, of the video mode, or <see cref="Constants.Default" />.</param>
-        public void SetMonitor(Monitor monitor, int x, int y, int width, int height, int refreshRate)
+        public void SetMonitor(Monitor monitor, int x, int y, int width, int height, int refreshRate = (int) Constants.Default)
         {
             Glfw.SetWindowMonitor(Window, monitor, x, y, width, height, refreshRate);
         }
 
         /// <summary>
-        ///     Sets the imits of the client size  area of the window.
+        ///     Sets the limits of the client size  area of the window.
         /// </summary>
         /// <param name="minSize">The minimum size of the client area.</param>
         /// <param name="maxSize">The maximum size of the client area.</param>
@@ -630,7 +618,7 @@ namespace GLFW
         }
 
         /// <summary>
-        ///     Sets the imits of the client size  area of the window.
+        ///     Sets the limits of the client size  area of the window.
         /// </summary>
         /// <param name="minWidth">The minimum width of the client area.</param>
         /// <param name="minHeight">The minimum height of the client area.</param>
@@ -716,15 +704,15 @@ namespace GLFW
 
         private void OnFileDrop(int count, IntPtr pointer)
         {
-            var filenames = new string[count];
+            var paths = new string[count];
             var offset = 0;
             for (var i = 0; i < count; i++, offset += IntPtr.Size)
             {
                 var ptr = new IntPtr(Marshal.ReadInt32(pointer + offset));
-                filenames[i] = Util.PtrToStringUTF8(ptr);
+                paths[i] = Util.PtrToStringUTF8(ptr);
             }
 
-            OnFileDrop(filenames);
+            OnFileDrop(paths);
         }
 
         #endregion
@@ -836,7 +824,7 @@ namespace GLFW
         /// </summary>
         /// <param name="codePoint">The Unicode code point.</param>
         /// <param name="mods">The modifier keys present.</param>
-        protected virtual void OnCharacterInput(uint codePoint, ModiferKeys mods)
+        protected virtual void OnCharacterInput(uint codePoint, ModifierKeys mods)
         {
             CharacterInput?.Invoke(this, new CharEventArgs(codePoint, mods));
         }
@@ -867,16 +855,17 @@ namespace GLFW
         /// <summary>
         ///     Raises the <see cref="FileDrop" /> event.
         /// </summary>
-        /// <param name="filenames">The filenames of the dropped files.</param>
-        protected virtual void OnFileDrop(string[] filenames)
+        /// <param name="paths">The filenames of the dropped files.</param>
+        protected virtual void OnFileDrop([NotNull] string[] paths)
         {
-            FileDrop?.Invoke(this, new FileDropEventArgs(filenames));
+            FileDrop?.Invoke(this, new FileDropEventArgs(paths));
         }
 
         /// <summary>
         ///     Raises the <see cref="FocusChanged" /> event.
         /// </summary>
         /// <param name="focusing"><c>true</c> if window is gaining focus, otherwise <c>false</c>.</param>
+        // ReSharper disable once UnusedParameter.Global
         protected virtual void OnFocusChanged(bool focusing) { FocusChanged?.Invoke(this, EventArgs.Empty); }
 
         /// <summary>
@@ -900,7 +889,7 @@ namespace GLFW
         /// <seealso cref="KeyRelease" />
         /// <seealso cref="KeyRepeat" />
         /// <seealso cref="KeyAction" />
-        protected virtual void OnKey(Keys key, int scanCode, InputState state, ModiferKeys mods)
+        protected virtual void OnKey(Keys key, int scanCode, InputState state, ModifierKeys mods)
         {
             var args = new KeyEventArgs(key, scanCode, state, mods);
             if (state.HasFlag(InputState.Press))
@@ -918,7 +907,7 @@ namespace GLFW
         /// <param name="button">The mouse button.</param>
         /// <param name="state">The state of the mouse button.</param>
         /// <param name="modifiers">The modifier keys.</param>
-        protected virtual void OnMouseButton(MouseButton button, InputState state, ModiferKeys modifiers)
+        protected virtual void OnMouseButton(MouseButton button, InputState state, ModifierKeys modifiers)
         {
             MouseButton?.Invoke(this, new MouseButtonEventArgs(button, state, modifiers));
         }
@@ -960,6 +949,7 @@ namespace GLFW
         /// </summary>
         /// <param name="x">The new position on the x-axis.</param>
         /// <param name="y">The new position on the y-axis.</param>
+        [SuppressMessage("ReSharper", "UnusedParameter.Global")]
         protected virtual void OnPositionChanged(double x, double y) { PositionChanged?.Invoke(this, EventArgs.Empty); }
 
         /// <summary>
