@@ -16,15 +16,63 @@ namespace GLFW
     public static class Native
     {
         #region External
-	
+
         /// <summary>
-        /// 	Returns the GLXContext of the specified window.
+        ///     Returns the pointer to the Wayland window for the specified window.
         /// </summary>
         /// <param name="window">A window instance.</param>
-        /// <returns>The GLXContext of the specified window, or <see cref="GLXContext.None"/> if an error occurred.</returns>
+        /// <returns>A pointer to a Wayland window, or <see cref="IntPtr.Zero" /> if error occurred.</returns>
+        [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetWaylandWindow", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetWaylandWindow(Window window);
+
+        /// <summary>
+        ///     Returns the pointer to the GLX window for the specified window.
+        /// </summary>
+        /// <param name="window">A window instance.</param>
+        /// <returns>A pointer to a GLX window, or <see cref="IntPtr.Zero" /> if error occurred.</returns>
+        [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetGLXWindow", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetGLXWindow(Window window);
+
+        /// <summary>
+        ///     Returns the pointer to the X11 window for the specified window.
+        /// </summary>
+        /// <param name="window">A window instance.</param>
+        /// <returns>A pointer to an X11 window, or <see cref="IntPtr.Zero" /> if error occurred.</returns>
+        [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetX11Window", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetX11Window(Window window);
+
+        /// <summary>
+        ///     Returns the pointer to the Cocoa window for the specified window.
+        /// </summary>
+        /// <param name="window">A window instance.</param>
+        /// <returns>A pointer to a Cocoa window, or <see cref="IntPtr.Zero" /> if error occurred.</returns>
+        [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetCocoaWindow", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetCocoaWindow(Window window);
+
+        /// <summary>
+        ///     Returns the NSOpenGLContext of the specified window.
+        /// </summary>
+        /// <param name="window">A window instance.</param>
+        /// <returns>The NSOpenGLContext of the specified window, or <see cref="NSOpenGLContext.None" /> if an error occurred.</returns>
+        [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetNSGLContext", CallingConvention = CallingConvention.Cdecl)]
+        public static extern NSOpenGLContext GetNSGLContext(Window window);
+
+        /// <summary>
+        ///     Returns the OSMesaContext of the specified window.
+        /// </summary>
+        /// <param name="window">A window instance.</param>
+        /// <returns>The OSMesaContext of the specified window, or <see cref="OSMesaContext.None" /> if an error occurred.</returns>
+        [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetOSMesaContext", CallingConvention = CallingConvention.Cdecl)]
+        public static extern OSMesaContext GetOSMesaContext(Window window);
+
+        /// <summary>
+        ///     Returns the GLXContext of the specified window.
+        /// </summary>
+        /// <param name="window">A window instance.</param>
+        /// <returns>The GLXContext of the specified window, or <see cref="GLXContext.None" /> if an error occurred.</returns>
         [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetGLXContext", CallingConvention = CallingConvention.Cdecl)]
         public static extern GLXContext GetGLXContext(Window window);
-        
+
         /// <summary>
         ///     Returns the EGLContext of the specified window.
         /// </summary>
