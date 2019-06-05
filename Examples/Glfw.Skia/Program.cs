@@ -2,11 +2,13 @@
 {
     using System;
     using System.Drawing;
+    using System.Runtime.InteropServices;
     using GLFW;
     using SkiaSharp;
 
     class Program
     {
+        private static NativeWindow window;
         private static SKCanvas canvas;
 
         private static Keys? lastKeyPressed;
@@ -18,38 +20,60 @@
         
         static void Main(string[] args)
         {
-            // Create GLFW Window
-            using (var window = new NativeWindow(800, 600, "Skia Example"))
+            using (Program.window = new NativeWindow(800, 600, "Skia Example"))
             {
-                // Subscribe to window events
-                window.SizeChanged += Program.OnWindowsSizeChanged;
-                window.Refreshed += Program.OnWindowRefreshed;
-                window.KeyPress += Program.OnWindowKeyPress;
-                window.MouseMoved += Program.OnWindowMouseMoved;
-
-                // Generate Skia Context
-                var context = Program.GenerateSkiaContext(window);
+                Program.SubscribeToWindowEvents();
                 
-
-                // Generate Skia surface
-                var skiaSurface = Program.GenerateSkiaSurface(context, window.ClientSize);
-                
-                // Assign surface canvas to private member
-                Program.canvas = skiaSurface.Canvas;
-                
-                //Loop waiting for window close
-                while (!window.IsClosing)
+                using (var context = Program.GenerateSkiaContext(Program.window))
                 {
-                    Program.Render(window);
-                    Glfw.WaitEvents();
+                    using (var skiaSurface = Program.GenerateSkiaSurface(context, Program.window.ClientSize))
+                    {
+                        Program.canvas = skiaSurface.Canvas;
+                        
+                        while (!Program.window.IsClosing)
+                        {
+                            Program.Render();
+                            Glfw.WaitEvents();
+                        }
+                    }
                 }
             }
         }
 
+        private static void SubscribeToWindowEvents()
+        {
+            Program.window.SizeChanged += Program.OnWindowsSizeChanged;
+            Program.window.Refreshed += Program.OnWindowRefreshed;
+            Program.window.KeyPress += Program.OnWindowKeyPress;
+            Program.window.MouseMoved += Program.OnWindowMouseMoved;
+        }
+
         private static GRContext GenerateSkiaContext(NativeWindow nativeWindow)
         {
-            var glInterface = GRGlInterface.AssembleGlInterface(Native.GetWglContext(nativeWindow), (contextHandle, name) => Glfw.GetProcAddress(name));
+            var nativeContext = Program.GetNativeContext(nativeWindow);
+            var glInterface = GRGlInterface.AssembleGlInterface(nativeContext, (contextHandle, name) => Glfw.GetProcAddress(name));
             return GRContext.Create(GRBackend.OpenGL, glInterface);
+        }
+
+        private static object GetNativeContext(NativeWindow nativeWindow)
+        {
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return Native.GetWglContext(nativeWindow);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                // XServer
+                //return Native.GetGlxContext(nativeWindow);
+                // Wayland
+                //return Native.GetEglContext(nativeWindow);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                //return Native.GetNSGLContext(nativeWindow);
+            }
+            
+            throw new PlatformNotSupportedException();
         }
         
         private static SKSurface GenerateSkiaSurface(GRContext skiaContext, Size surfaceSize)
@@ -63,13 +87,8 @@
             return SKSurface.Create(skiaContext, backendRenderTarget, GRSurfaceOrigin.BottomLeft, SKImageInfo.PlatformColorType);
         }
         
-        private static void Render(NativeWindow window)
+        private static void Render()
         {
-            if (Program.canvas == null)
-            {
-                return;
-            }
-
             Program.canvas.Clear(SKColor.Parse("#F0F0F0"));
             var headerPaint = new SKPaint {Color = SKColor.Parse("#333333"), TextSize = 50, IsAntialias = true};
             Program.canvas.DrawText("Hello from GLFW.NET + SkiaSharp!", 10, 60, headerPaint);
@@ -82,14 +101,14 @@
             Program.canvas.DrawText("Press Enter to Exit.", 10, 160, exitInfoPaint);
             
             Program.canvas.Flush();
-            window.SwapBuffers();
+            Program.window.SwapBuffers();
         }
 
         #region Window Events Handlers
 
         private static void OnWindowsSizeChanged(object sender, SizeChangeEventArgs e)
         {
-            Program.Render((NativeWindow)sender);
+            Program.Render();
         }
         
         private static void OnWindowKeyPress(object sender, KeyEventArgs e)
@@ -97,7 +116,7 @@
             Program.lastKeyPressed = e.Key;
             if (e.Key == Keys.Enter || e.Key == Keys.NumpadEnter)
             {
-                ((NativeWindow)sender).Close();
+                Program.window.Close();
             }
         }
 
@@ -108,7 +127,7 @@
         
         private static void OnWindowRefreshed(object sender, EventArgs e)
         {
-            Program.Render((NativeWindow)sender);
+            Program.Render();
         }
 
         #endregion
