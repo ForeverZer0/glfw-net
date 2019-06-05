@@ -64,13 +64,13 @@
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 // XServer
-                //return Native.GetGlxContext(nativeWindow);
+                return Native.GetGLXContext(nativeWindow);
                 // Wayland
                 //return Native.GetEglContext(nativeWindow);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                //return Native.GetNSGLContext(nativeWindow);
+                return Native.GetNSGLContext(nativeWindow);
             }
             
             throw new PlatformNotSupportedException();
