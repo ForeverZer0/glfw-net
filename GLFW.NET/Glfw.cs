@@ -125,6 +125,7 @@ namespace GLFW
         /// </summary>
         /// <param name="hint">The window hit to set.</param>
         /// <param name="value">The new value of the window hint.</param>
+        // ReSharper disable once InconsistentNaming
         public static void WindowHintStringUTF8(Hint hint, string value)
         {
             WindowHintString(hint, Encoding.UTF8.GetBytes(value));
@@ -135,6 +136,7 @@ namespace GLFW
         /// </summary>
         /// <param name="hint">The window hit to set.</param>
         /// <param name="value">The new value of the window hint.</param>
+        // ReSharper disable once InconsistentNaming
         public static void WindowHintStringASCII(Hint hint, string value)
         {
             WindowHintString(hint, Encoding.ASCII.GetBytes(value));
