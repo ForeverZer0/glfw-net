@@ -12,8 +12,19 @@ namespace GLFW
     ///     Provides a simplified interface for creating and using a GLFW window with properties, events, etc.
     /// </summary>
     /// <seealso cref="Microsoft.Win32.SafeHandles.SafeHandleZeroOrMinusOneIsInvalid" />
-    public class NativeWindow : SafeHandleZeroOrMinusOneIsInvalid
+    public class NativeWindow : SafeHandleZeroOrMinusOneIsInvalid, IEquatable<NativeWindow>
     {
+        /// <summary>
+        ///     Determines whether the specified <paramref name="window" /> is equal to this instance.
+        /// </summary>
+        /// <param name="window">A <see cref="NativeWindow" /> instance to compare for equality.</param>
+        /// <returns><c>true</c> if objects represent the same window, otherwise <c>false</c>.</returns>
+        public bool Equals(NativeWindow window)
+        {
+            if (ReferenceEquals(null, window)) return false;
+            return ReferenceEquals(this, window) || Window.Equals(window.Window);
+        }
+
         /// <summary>
         ///     Raises the <see cref="Maximized" /> event.
         /// </summary>
@@ -38,12 +49,46 @@ namespace GLFW
             ContentScaleChanged?.Invoke(this, new ContentScaleEventArgs(xScale, yScale));
         }
 
+        /// <inheritdoc cref="Object.Equals(object)" />
+        public override bool Equals(object obj)
+        {
+            return ReferenceEquals(this, obj) || obj is NativeWindow other && Equals(other);
+        }
+
+        /// <inheritdoc cref="Object.GetHashCode" />
+        public override int GetHashCode()
+        {
+            return Window.GetHashCode();
+        }
+
+        /// <summary>
+        ///     Determines whether the specified window is equal to this instance.
+        /// </summary>
+        /// <param name="left">This instance.</param>
+        /// <param name="right">A <see cref="NativeWindow" /> instance to compare for equality.</param>
+        /// <returns><c>true</c> if objects represent the same window, otherwise <c>false</c>.</returns>
+        public static bool operator ==(NativeWindow left, NativeWindow right)
+        {
+            return Equals(left, right);
+        }
+
+        /// <summary>
+        ///     Determines whether the specified window is not equal to this instance.
+        /// </summary>
+        /// <param name="left">This instance.</param>
+        /// <param name="right">A <see cref="NativeWindow" /> instance to compare for equality.</param>
+        /// <returns><c>true</c> if objects do not represent the same window, otherwise <c>false</c>.</returns>
+        public static bool operator !=(NativeWindow left, NativeWindow right)
+        {
+            return !Equals(left, right);
+        }
+
         #region Fields and Constants
 
         /// <summary>
         ///     The window instance this object wraps.
         /// </summary>
-        protected Window Window;
+        protected readonly Window Window;
 
         private string title;
 
@@ -134,7 +179,10 @@ namespace GLFW
         ///         request automatically.
         ///     </para>
         /// </summary>
-        public void RequestAttention() { Glfw.RequestWindowAttention(handle); }
+        public void RequestAttention()
+        {
+            Glfw.RequestWindowAttention(handle);
+        }
 
         /// <summary>
         ///     Gets or sets a string to the system clipboard.
@@ -318,14 +366,6 @@ namespace GLFW
 
         /// <summary>
         ///     Gets or sets the size of the window, in screen coordinates, including border, titlebar, etc.
-        ///     <para>
-        ///         BUG: On Windows, as of GLFW 3.2.1, the frame size values may be incorrect, resulting in incorrect values for
-        ///         this property.
-        ///     </para>
-        ///     <para>
-        ///         This is due to how the values are retrieved from the OS by the underlying library. Typically the values will
-        ///         be larger than expected.
-        ///     </para>
         /// </summary>
         /// <value>
         ///     A <see cref="System.Drawing.Size" /> in screen coordinates that represents the size of the window.
@@ -451,7 +491,10 @@ namespace GLFW
         /// <returns>
         ///     The result of the conversion.
         /// </returns>
-        public static implicit operator Window(NativeWindow nativeWindow) { return nativeWindow.Window; }
+        public static implicit operator Window(NativeWindow nativeWindow)
+        {
+            return nativeWindow.Window;
+        }
 
         /// <summary>
         ///     Performs an implicit conversion from <see cref="NativeWindow" /> to <see cref="IntPtr" />.
@@ -460,7 +503,10 @@ namespace GLFW
         /// <returns>
         ///     The result of the conversion.
         /// </returns>
-        public static implicit operator IntPtr(NativeWindow nativeWindow) { return nativeWindow.Window; }
+        public static implicit operator IntPtr(NativeWindow nativeWindow)
+        {
+            return nativeWindow.Window;
+        }
 
         #endregion
 
@@ -471,7 +517,9 @@ namespace GLFW
         /// <summary>
         ///     Initializes a new instance of the <see cref="NativeWindow" /> class.
         /// </summary>
-        public NativeWindow() : this(800, 600, string.Empty, Monitor.None, Window.None) { }
+        public NativeWindow() : this(800, 600, string.Empty, Monitor.None, Window.None)
+        {
+        }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="NativeWindow" /> class.
@@ -479,8 +527,10 @@ namespace GLFW
         /// <param name="width">The desired width, in screen coordinates, of the window. This must be greater than zero.</param>
         /// <param name="height">The desired height, in screen coordinates, of the window. This must be greater than zero.</param>
         /// <param name="title">The initial window title.</param>
-        public NativeWindow(int width, int height, [CanBeNull] string title) : this(width, height, title, Monitor.None, Window.None)
-        { }
+        public NativeWindow(int width, int height, [CanBeNull] string title) : this(width, height, title, Monitor.None,
+            Window.None)
+        {
+        }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="NativeWindow" /> class.
@@ -535,41 +585,62 @@ namespace GLFW
         /// <summary>
         ///     Focuses this form to receive input and events.
         /// </summary>
-        public void Focus() { Glfw.FocusWindow(Window); }
+        public void Focus()
+        {
+            Glfw.FocusWindow(Window);
+        }
 
         /// <summary>
         ///     Sets the window fullscreen on the primary monitor.
         /// </summary>
-        public void Fullscreen() { Fullscreen(Glfw.PrimaryMonitor); }
+        public void Fullscreen()
+        {
+            Fullscreen(Glfw.PrimaryMonitor);
+        }
 
         /// <summary>
         ///     Sets the window fullscreen on the specified monitor.
         /// </summary>
         /// <param name="monitor">The monitor to display the window fullscreen.</param>
-        public void Fullscreen(Monitor monitor) { Glfw.SetWindowMonitor(Window, monitor, 0, 0, 0, 0, -1); }
+        public void Fullscreen(Monitor monitor)
+        {
+            Glfw.SetWindowMonitor(Window, monitor, 0, 0, 0, 0, -1);
+        }
 
         /// <summary>
         ///     Makes window and its context the current.
         /// </summary>
-        public void MakeCurrent() { Glfw.MakeContextCurrent(Window); }
+        public void MakeCurrent()
+        {
+            Glfw.MakeContextCurrent(Window);
+        }
 
         /// <summary>
         ///     Maximizes this window to fill the screen.
         ///     <para>Has no effect if window is already maximized.</para>
         /// </summary>
-        public void Maximize() { Glfw.MaximizeWindow(Window); }
+        public void Maximize()
+        {
+            Glfw.MaximizeWindow(Window);
+        }
 
         /// <summary>
         ///     Minimizes this window.
         ///     <para>Has no effect if window is already minimized.</para>
         /// </summary>
-        public void Minimize() { Glfw.IconifyWindow(Window); }
+        public void Minimize()
+        {
+            Glfw.IconifyWindow(Window);
+        }
 
         /// <summary>
         ///     Restores a minimized window to its previous state.
         ///     <para>Has no effect if window was already restored.</para>
         /// </summary>
-        public void Restore() { Glfw.RestoreWindow(Window); }
+        public void Restore()
+        {
+            Glfw.RestoreWindow(Window);
+        }
 
         /// <summary>
         ///     Sets the aspect ratio to maintain for the window.
@@ -587,7 +658,10 @@ namespace GLFW
         ///     <para>Standard sizes are 16x16, 32x32, and 48x48.</para>
         /// </summary>
         /// <param name="images">One or more images to set as an icon.</param>
-        public void SetIcons([NotNull] params Image[] images) { Glfw.SetWindowIcon(Window, images.Length, images); }
+        public void SetIcons([NotNull] params Image[] images)
+        {
+            Glfw.SetWindowIcon(Window, images.Length, images);
+        }
 
         /// <summary>
         ///     Sets the window monitor.
@@ -602,7 +676,8 @@ namespace GLFW
         /// <param name="width">The desired width, in screen coordinates, of the client area or video mode.</param>
         /// <param name="height">The desired height, in screen coordinates, of the client area or video mode.</param>
         /// <param name="refreshRate">The desired refresh rate, in Hz, of the video mode, or <see cref="Constants.Default" />.</param>
-        public void SetMonitor(Monitor monitor, int x, int y, int width, int height, int refreshRate = (int) Constants.Default)
+        public void SetMonitor(Monitor monitor, int x, int y, int width, int height,
+            int refreshRate = (int) Constants.Default)
         {
             Glfw.SetWindowMonitor(Window, monitor, x, y, width, height, refreshRate);
         }
@@ -635,7 +710,10 @@ namespace GLFW
         ///         This should not be called on a window that is not using an OpenGL or OpenGL ES context (.i.e. Vulkan).
         ///     </para>
         /// </summary>
-        public void SwapBuffers() { Glfw.SwapBuffers(Window); }
+        public void SwapBuffers()
+        {
+            Glfw.SwapBuffers(Window);
+        }
 
         /// <summary>
         ///     Releases unmanaged and - optionally - managed resources.
@@ -832,7 +910,10 @@ namespace GLFW
         /// <summary>
         ///     Raises the <see cref="Closed" /> event.
         /// </summary>
-        protected virtual void OnClosed() { Closed?.Invoke(this, EventArgs.Empty); }
+        protected virtual void OnClosed()
+        {
+            Closed?.Invoke(this, EventArgs.Empty);
+        }
 
         /// <summary>
         ///     Raises the <see cref="Closing" /> event.
@@ -866,7 +947,10 @@ namespace GLFW
         /// </summary>
         /// <param name="focusing"><c>true</c> if window is gaining focus, otherwise <c>false</c>.</param>
         // ReSharper disable once UnusedParameter.Global
-        protected virtual void OnFocusChanged(bool focusing) { FocusChanged?.Invoke(this, EventArgs.Empty); }
+        protected virtual void OnFocusChanged(bool focusing)
+        {
+            FocusChanged?.Invoke(this, EventArgs.Empty);
+        }
 
         /// <summary>
         ///     Raises the <see cref="FramebufferSizeChanged" /> event.
@@ -950,7 +1034,10 @@ namespace GLFW
         /// <param name="x">The new position on the x-axis.</param>
         /// <param name="y">The new position on the y-axis.</param>
         [SuppressMessage("ReSharper", "UnusedParameter.Global")]
-        protected virtual void OnPositionChanged(double x, double y) { PositionChanged?.Invoke(this, EventArgs.Empty); }
+        protected virtual void OnPositionChanged(double x, double y)
+        {
+            PositionChanged?.Invoke(this, EventArgs.Empty);
+        }
 
         /// <summary>
         ///     Raises the <see cref="SizeChanged" /> event.

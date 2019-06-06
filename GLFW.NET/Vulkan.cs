@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using JetBrains.Annotations;
 
 namespace GLFW
 {
@@ -77,7 +78,7 @@ namespace GLFW
         /// <param name="vulkan">The vulkan instance.</param>
         /// <param name="procName">Name of the function.</param>
         /// <returns>The address of the function, or <see cref="IntPtr.Zero" /> if an error occurred.</returns>
-        public static IntPtr GetInstanceProcAddress(IntPtr vulkan, string procName)
+        public static IntPtr GetInstanceProcAddress(IntPtr vulkan, [NotNull] string procName)
         {
             return GetInstanceProcAddress(vulkan, Encoding.ASCII.GetBytes(procName));
         }
@@ -96,6 +97,7 @@ namespace GLFW
         ///     </para>
         /// </summary>
         /// <returns>An array of extension names.</returns>
+        [NotNull]
         public static string[] GetRequiredInstanceExtensions()
         {
             var ptr = GetRequiredInstanceExtensions(out var count);
