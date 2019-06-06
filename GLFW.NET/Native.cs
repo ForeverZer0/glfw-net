@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Text;
+using JetBrains.Annotations;
 
 namespace GLFW
 {
@@ -17,6 +19,24 @@ namespace GLFW
     {
         #region External
 
+        /// <summary>
+        /// 	Retrieves a pointer to the Wayland display.
+        /// 	<para>The pointer is to a native <c>wl_display</c> struct defined in wayland-client.c.</para>
+        /// </summary>
+        /// <returns>A pointer to the Wayland display struct.</returns>
+        /// <seealso href="https://github.com/msteinert/wayland/blob/master/src/wayland-client.c"/>
+        [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetWaylandDisplay", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetWaylandDisplay();
+        
+        /// <summary>
+        /// 	Retrieves a pointer to the Wayland output monitor.
+        /// 	<para>The pointer is to a native <c>wl_output</c> struct defined in wayland-client.c.</para>
+        /// </summary>
+        /// <returns>A pointer to the Wayland output struct.</returns>
+        /// <seealso href="https://github.com/msteinert/wayland/blob/master/src/wayland-client.c"/>
+        [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetWaylandMonitor", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetWaylandMonitor(Monitor monitor);
+        
         /// <summary>
         ///     Returns the pointer to the Wayland window for the specified window.
         /// </summary>
@@ -111,6 +131,32 @@ namespace GLFW
         /// <returns>The HWND of the specified window, or <see cref="IntPtr.Zero" /> if an error occurred.</returns>
         [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetWin32Window", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetWin32Window(Window window);
+
+        /// <summary>
+        /// 	Returns the contents of the selection as a string.
+        /// </summary>
+        /// <returns>The selected string, or <c>null</c> if error occurs or no string is selected.</returns>
+        [CanBeNull]
+        public static string GetX11SelectionString()
+        {
+	        var ptr = GetX11SelectionStringInternal();
+	        return ptr == IntPtr.Zero ? null : Util.PtrToStringUTF8(ptr);
+        }
+
+        /// <summary>
+        /// 	Sets the clipboard string of an X11 window.
+        /// </summary>
+        /// <param name="str">The string to set.</param>
+        public static void SetX11SelectionString([NotNull] string str)
+        {
+	        SetX11SelectionString(Encoding.UTF8.GetBytes(str));
+        }
+
+        [DllImport(Glfw.LIBRARY, EntryPoint = "glfwSetX11SelectionString", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SetX11SelectionString([NotNull] byte[] str);
+        
+        [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetX11SelectionString", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr GetX11SelectionStringInternal();
 
         [DllImport(Glfw.LIBRARY, EntryPoint = "glfwGetWin32Adapter", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr GetWin32AdapterInternal(Monitor monitor);
