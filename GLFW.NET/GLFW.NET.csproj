@@ -19,7 +19,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PackageVersion>3.3.0</PackageVersion>
+    <PackageVersion>3.3.1</PackageVersion>
     <Title>glfw-net</Title>
     <PackageIconUrl>https://github.com/ForeverZer0/glfw-net/raw/master/favicons.png</PackageIconUrl>
     <PackageId>glfw-net</PackageId>
