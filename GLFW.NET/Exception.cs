@@ -1,5 +1,8 @@
 ﻿namespace GLFW
 {
+    /// <summary>
+    /// Base exception class for GLFW related errors.
+    /// </summary>
     public class Exception : System.Exception
     {
         #region Methods
