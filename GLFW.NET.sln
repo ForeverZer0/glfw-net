@@ -1,19 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GLFW.NET", "GLFW.NET\GLFW.NET.csproj", "{96E87D2B-3BC6-449E-B7F3-146A54A35ACA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1AB41009-AA61-43E6-9F9B-B827FF1D01DA}"
 	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
+		.editorconfig = .editorconfig
 		HISTORY.md = HISTORY.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{7DC92A2E-41E8-408E-A022-9A9170D520A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glfw.Skia", "Examples\Glfw.Skia\Glfw.Skia.csproj", "{5C97B9A1-2FD4-4B8D-A024-96C052A5DC4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glfw.Skia", "Examples\Glfw.Skia\Glfw.Skia.csproj", "{5C97B9A1-2FD4-4B8D-A024-96C052A5DC4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +34,10 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {362DA6BC-2AF4-4AC0-81DE-5B5F78F59B31}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5C97B9A1-2FD4-4B8D-A024-96C052A5DC4C} = {7DC92A2E-41E8-408E-A022-9A9170D520A8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {362DA6BC-2AF4-4AC0-81DE-5B5F78F59B31}
 	EndGlobalSection
 EndGlobal
