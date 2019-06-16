@@ -29,7 +29,7 @@ Windows users need only grab the pre-built binaries from the the [GLFW](https://
 Unix users need only have GLFW built and installed on the system globally, and need not distribute any binaries along with the application.
 
 ## IMPORTANT!
-The Windows and Unix library name differ. On Windows, the library name is `glfw3` (always exclude file extensions), and on Unix systems, it is only `glfw` without the major version suffix. By default, the `Glfw.LIBRARY` constant is hard-coded in the Windows format, so this will either need changed, or require you to resolve the dependencies manually. 
+The Windows and Unix library name differ. On Windows, the library name is `glfw3` (always exclude file extensions), and on Unix systems, it is only `glfw` without the major version suffix. By default, the `Glfw.LIBRARY` constant is hard-coded in the Unix format. On Windows, you will need to account for name change while resolving dependencies, or rename the binary. 
 
 ## Native Window Creation
 Once you have your dependencies taken care of, creating a window is simple. 

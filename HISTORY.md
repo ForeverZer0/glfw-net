@@ -1,5 +1,8 @@
 # History
 
+## GLFW.NET Version 3.3.1.1 Changes
+* Added `ClientWidth` and `ClientHeight` properties to `NativeWindow` class
+
 ## GLFW.NET Version 3.3.1 Changes
 
 * Changed default library name from `glfw3` to `glfw` (See [Issue#8](https://github.com/ForeverZer0/glfw-net/issues/8))
