@@ -157,6 +157,46 @@ namespace GLFW
         }
 
         /// <summary>
+        ///     Gets or sets the width of the client area of the window, in screen coordinates.
+        /// </summary>
+        /// <exception cref="Exception">Thrown when specified value is less than 1.</exception>
+        public int ClientWidth
+        {
+            get
+            {
+                Glfw.GetWindowSize(Window, out var width, out var dummy);
+                return width;
+            }
+            set
+            {
+                if (value < 1) 
+                    throw new Exception("Window width muts be greater than 0.");
+                Glfw.GetWindowSize(Window, out var dummy, out var height);
+                Glfw.SetWindowSize(Window, value, height);
+            }
+        }
+        
+        /// <summary>
+        ///     Gets or sets the height of the client area of the window, in screen coordinates.
+        /// </summary>
+        /// <exception cref="Exception">Thrown when specified value is less than 1.</exception>
+        public int ClientHeight
+        {
+            get
+            {
+                Glfw.GetWindowSize(Window, out var dummy, out var height);
+                return height;
+            }
+            set
+            {
+                if (value < 1) 
+                    throw new Exception("Window height muts be greater than 0.");
+                Glfw.GetWindowSize(Window, out var width, out var dummy);
+                Glfw.SetWindowSize(Window, width, value);
+            }
+        }
+
+        /// <summary>
         ///     Gets or sets the size of the client area of the window, in screen coordinates.
         /// </summary>
         /// <value>
