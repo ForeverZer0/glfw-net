@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
@@ -230,7 +229,7 @@ namespace GLFW
         /// <value>
         ///     The clipboard string.
         /// </value>
-        [NotNull]
+        [JetBrains.Annotations.NotNull]
         public string Clipboard
         {
             get => Glfw.GetClipboardString(Window);
@@ -698,7 +697,7 @@ namespace GLFW
         ///     <para>Standard sizes are 16x16, 32x32, and 48x48.</para>
         /// </summary>
         /// <param name="images">One or more images to set as an icon.</param>
-        public void SetIcons([NotNull] params Image[] images)
+        public void SetIcons([JetBrains.Annotations.NotNull] params Image[] images)
         {
             Glfw.SetWindowIcon(Window, images.Length, images);
         }
@@ -977,7 +976,7 @@ namespace GLFW
         ///     Raises the <see cref="FileDrop" /> event.
         /// </summary>
         /// <param name="paths">The filenames of the dropped files.</param>
-        protected virtual void OnFileDrop([NotNull] string[] paths)
+        protected virtual void OnFileDrop([JetBrains.Annotations.NotNull] string[] paths)
         {
             FileDrop?.Invoke(this, new FileDropEventArgs(paths));
         }
@@ -1073,7 +1072,7 @@ namespace GLFW
         /// </summary>
         /// <param name="x">The new position on the x-axis.</param>
         /// <param name="y">The new position on the y-axis.</param>
-        [SuppressMessage("ReSharper", "UnusedParameter.Global")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "UnusedParameter.Global")]
         protected virtual void OnPositionChanged(double x, double y)
         {
             PositionChanged?.Invoke(this, EventArgs.Empty);

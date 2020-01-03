@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{7D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glfw.Skia", "Examples\Glfw.Skia\Glfw.Skia.csproj", "{5C97B9A1-2FD4-4B8D-A024-96C052A5DC4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicExample", "Examples\BasicExample\BasicExample.csproj", "{53E7BEED-08D7-43F9-97C9-13368F4C47CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{5C97B9A1-2FD4-4B8D-A024-96C052A5DC4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C97B9A1-2FD4-4B8D-A024-96C052A5DC4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C97B9A1-2FD4-4B8D-A024-96C052A5DC4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53E7BEED-08D7-43F9-97C9-13368F4C47CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53E7BEED-08D7-43F9-97C9-13368F4C47CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53E7BEED-08D7-43F9-97C9-13368F4C47CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53E7BEED-08D7-43F9-97C9-13368F4C47CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,5 +44,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5C97B9A1-2FD4-4B8D-A024-96C052A5DC4C} = {7DC92A2E-41E8-408E-A022-9A9170D520A8}
+		{53E7BEED-08D7-43F9-97C9-13368F4C47CA} = {7DC92A2E-41E8-408E-A022-9A9170D520A8}
 	EndGlobalSection
 EndGlobal

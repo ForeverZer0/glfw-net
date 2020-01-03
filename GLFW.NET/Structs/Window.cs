@@ -27,6 +27,22 @@ namespace GLFW
         ///     The result of the conversion.
         /// </returns>
         public static implicit operator IntPtr(Window window) { return window.handle; }
+        
+        /// <summary>
+        ///     Performs an explicit conversion from <see cref="IntPtr"/> to <see cref="Window"/>.
+        /// </summary>
+        /// <param name="handle">A pointer representing the window handle.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static explicit operator Window(IntPtr handle) => new Window(handle);
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="Window"/> struct.
+        /// </summary>
+        /// <param name="handle">A pointer representing the window handle.</param>
+        public Window(IntPtr handle)
+        {
+            this.handle = handle;
+        }
 
         /// <summary>
         ///     Returns a <see cref="System.String" /> that represents this instance.
