@@ -825,7 +825,7 @@ namespace GLFW
             var offset = 0;
             for (var i = 0; i < count; i++, offset += IntPtr.Size)
             {
-                var ptr = new IntPtr(Marshal.ReadInt32(pointer + offset));
+                var ptr = Marshal.ReadIntPtr(pointer + offset);
                 paths[i] = Util.PtrToStringUTF8(ptr);
             }
 
