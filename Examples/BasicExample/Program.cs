@@ -9,7 +9,7 @@ namespace BasicExample
         private const string TITLE = "Simple Window";
         private const int WIDTH = 1024;
         private const int HEIGHT = 800;
-        
+
         private const int GL_COLOR_BUFFER_BIT = 0x00004000;
 
 
@@ -30,7 +30,8 @@ namespace BasicExample
             Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
             Glfw.WindowHint(Hint.Doublebuffer, true);
             Glfw.WindowHint(Hint.Decorated, true);
-            
+            Glfw.WindowHint(Hint.OpenglForwardCompatible, true);
+
             rand = new Random();
 
             #if OBJECTORIENTED
@@ -51,24 +52,24 @@ namespace BasicExample
             // Create window
             var window = Glfw.CreateWindow(WIDTH, HEIGHT, TITLE, Monitor.None, Window.None);
             Glfw.MakeContextCurrent(window);
-            
+
             // Effectively enables VSYNC by setting to 1.
-            Glfw.SwapInterval(1); 
-            
+            Glfw.SwapInterval(1);
+
             // Find center position based on window and monitor sizes
             var screenSize = Glfw.PrimaryMonitor.WorkArea;
             var x = (screenSize.Width - WIDTH) / 2;
             var y = (screenSize.Height - HEIGHT) / 2;
             Glfw.SetWindowPosition(window, x, y);
-            
+
             // Set a key callback
             Glfw.SetKeyCallback(window, KeyCallback);
-            
+
 
             glClearColor = Marshal.GetDelegateForFunctionPointer<glClearColorHandler>(Glfw.GetProcAddress("glClearColor"));
             glClear = Marshal.GetDelegateForFunctionPointer<glClearHandler>(Glfw.GetProcAddress("glClear"));
-            
-            
+
+
             var tick = 0L;
             ChangeRandomColor();
 
@@ -81,7 +82,7 @@ namespace BasicExample
                 // Change background color to something random every 60 draws
                 if (tick++ % 60 == 0)
                     ChangeRandomColor();
-                
+
                 // Clear the buffer to the set color
                 glClear(GL_COLOR_BUFFER_BIT);
             }
@@ -110,7 +111,7 @@ namespace BasicExample
             }
         }
 #else
-      
+
         private static void KeyCallback(Window window, Keys key, int scancode, InputState state, ModifierKeys mods)
         {
             switch (key)
