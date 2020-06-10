@@ -18,10 +18,13 @@ namespace GLFW
         #region Fields and Constants
 
         /// <summary>
-        ///     The native library name,
-        ///     <para>For Unix users using an installed version of GLFW, this needs refactored to <c>glfw</c>.</para>
+        ///     The native library name
         /// </summary>
+#if Windows
+        public const string LIBRARY = "glfw3";
+#else
         public const string LIBRARY = "glfw";
+#endif
 
         private static readonly ErrorCallback errorCallback = GlfwError;
 
