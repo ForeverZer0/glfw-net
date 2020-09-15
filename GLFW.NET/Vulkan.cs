@@ -38,7 +38,7 @@ namespace GLFW
         /// <returns>VK_SUCCESS if successful, or a Vulkan error code if an error occurred.</returns>
         [DllImport(Glfw.LIBRARY, EntryPoint = "glfwCreateWindowSurface", CallingConvention = CallingConvention.Cdecl)]
         public static extern int
-            CreateWindowSurface(IntPtr vulkan, IntPtr window, IntPtr allocator, out IntPtr surface);
+            CreateWindowSurface(IntPtr vulkan, IntPtr window, IntPtr allocator, out ulong surface);
 
         /// <summary>
         ///     This function returns whether the specified queue family of the specified physical device supports presentation to
