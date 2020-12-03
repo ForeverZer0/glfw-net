@@ -4,6 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Company></Company>
     <AssemblyName>GLFW.NETCore</AssemblyName>
+    <ReleaseVersion>2.20.12</ReleaseVersion>
+    <RootNamespace>GLFW.NETStandard</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
