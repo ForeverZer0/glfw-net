@@ -1015,12 +1015,20 @@ namespace GLFW
         protected virtual void OnKey(Keys key, int scanCode, InputState state, ModifierKeys mods)
         {
             var args = new KeyEventArgs(key, scanCode, state, mods);
-            if (state.HasFlag(InputState.Press))
-                KeyPress?.Invoke(this, args);
-            else if (state.HasFlag(InputState.Release))
-                KeyRelease?.Invoke(this, args);
-            else
-                KeyRepeat?.Invoke(this, args);
+            switch (state)
+            {
+                case InputState.Press:
+                    KeyPress?.Invoke(this, args);
+                    break;
+                case InputState.Release:
+                    KeyRelease?.Invoke(this, args);
+                    break;
+                case InputState.Repeat:
+                    KeyRepeat?.Invoke(this, args);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
             KeyAction?.Invoke(this, args);
         }
 
